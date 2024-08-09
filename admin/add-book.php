@@ -12,29 +12,31 @@ if (strlen($_SESSION['alogin']) == 0) {
         $author = $_POST['author'];
         $isbn = $_POST['isbn'];
         $price = $_POST['price'];
-
-        // Handle file upload
         $bookcover = $_FILES['bookcover']['name'];
         $target_dir = "bookcovers/";
-        $target_file = $target_dir . basename($_FILES["bookcover"]["name"]);
-        move_uploaded_file($_FILES["bookcover"]["tmp_name"], $target_file);
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);  // Bismillah ada
+        }
+        $target_file = $target_dir . basename($bookcover);
+        if (move_uploaded_file($_FILES["bookcover"]["tmp_name"], $target_file)) {
 
-        $sql = "INSERT INTO tblbooks(BookName, CatId, AuthorId, ISBNNumber, BookPrice, BookCover) VALUES(:bookname, :category, :author, :isbn, :price, :bookcover)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':bookname', $bookname, PDO::PARAM_STR);
-        $query->bindParam(':category', $category, PDO::PARAM_STR);
-        $query->bindParam(':author', $author, PDO::PARAM_STR);
-        $query->bindParam(':isbn', $isbn, PDO::PARAM_STR);
-        $query->bindParam(':price', $price, PDO::PARAM_STR);
-        $query->bindParam(':bookcover', $bookcover, PDO::PARAM_STR);
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            $_SESSION['msg'] = "Book Listed successfully";
-            header('location:manage-books.php');
-        } else {
-            $_SESSION['error'] = "Something went wrong. Please try again";
-            header('location:manage-books.php');
+            $sql = "INSERT INTO tblbooks(BookName, CatId, AuthorId, ISBNNumber, BookPrice, BookCover) VALUES(:bookname, :category, :author, :isbn, :price, :bookcover)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':bookname', $bookname, PDO::PARAM_STR);
+            $query->bindParam(':category', $category, PDO::PARAM_STR);
+            $query->bindParam(':author', $author, PDO::PARAM_STR);
+            $query->bindParam(':isbn', $isbn, PDO::PARAM_STR);
+            $query->bindParam(':price', $price, PDO::PARAM_STR);
+            $query->bindParam(':bookcover', $target_file, PDO::PARAM_STR);
+            $query->execute();
+            $lastInsertId = $dbh->lastInsertId();
+            if ($lastInsertId) {
+                $_SESSION['msg'] = "Book Listed successfully";
+                header('location:manage-books.php');
+            } else {
+                $_SESSION['error'] = "Something went wrong. Please try again";
+                header('location:manage-books.php');
+            }
         }
     }
     ?>
@@ -139,7 +141,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
                                     <div class="form-group">
                                         <label>Book Cover Image<span style="color:red;">*</span></label>
-                                        <input class="form-control" type="file" name="bookcover" required="required" />
+                                        <input class="form-control" type="file" name="bookcover" />
                                     </div>
 
                                     <button type="submit" name="add" class="btn btn-info">Add </button>
