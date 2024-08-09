@@ -54,7 +54,7 @@ if (strlen($_SESSION['login']) == 0) {
     <?php include ('includes/header.php'); ?>
     <!-- MENU SECTION END-->
 
-    <div class="content-wrapper">
+    <div class="content">
       <div class="container mx-auto py-12">
         <div class="row pad-botm">
           <div class="col-md-12">
@@ -140,43 +140,53 @@ if (strlen($_SESSION['login']) == 0) {
             <div class="flex flex-wrap -m-4">
               <?php
               $sql = "SELECT tblbooks.BookName, tblcategory.CategoryName, tblauthors.AuthorName, tblbooks.BookPrice, tblbooks.RegDate, tblbooks.BookCover
-        FROM tblbooks 
-        JOIN tblcategory ON tblbooks.CatId = tblcategory.id 
-        JOIN tblauthors ON tblbooks.AuthorId = tblauthors.id 
-        ORDER BY tblbooks.id DESC LIMIT 3";
+              FROM tblbooks 
+              JOIN tblcategory ON tblbooks.CatId = tblcategory.id 
+              JOIN tblauthors ON tblbooks.AuthorId = tblauthors.id 
+              ORDER BY tblbooks.id DESC LIMIT 4";
               $query = $dbh->prepare($sql);
               $query->execute();
               $results = $query->fetchAll(PDO::FETCH_OBJ);
               if ($query->rowCount() > 0) {
                 foreach ($results as $result) { ?>
-                  <div class="p-4 lg:w-1/3">
+                  <div class="p-4 sm:w-1/2 md:w-1/3 lg:w-1/4 gap-2">
                     <div class="group h-96 w-64 [perspective:1000px] mx-auto">
                       <div
                         class="relative h-full w-full rounded-xl shadow-xl transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                        <!-- Front Side -->
+                        <!-- Harus e penampilan depan (Sebelum card di hover akan menampilkan gambar berikut)-->
                         <div class="absolute inset-0">
                           <?php
                           $imagePath = htmlentities($result->BookCover);
                           echo "<img class='h-full w-full rounded-xl object-cover shadow-xl shadow-black/40 [backface-visibility:hidden]' src='admin/$imagePath' alt='Book Cover' />";
                           ?>
                         </div>
-                        <!-- Back Side -->
+                        <!-- Mana lagi kalau bukan belakang (dan ini setelahnya)-->
                         <div
                           class="absolute inset-0 h-full w-full rounded-xl bg-black/80 px-4 py-6 text-center text-slate-200 [backface-visibility:hidden] [transform:rotateY(180deg)]">
                           <div class="flex flex-col justify-center h-full">
-                            <h1 class="text-xl font-bold mb-2"><?php echo htmlentities($result->BookName); ?></h1>
-                            <h2 class="text-sm font-semibold mb-4"><?php echo htmlentities($result->CategoryName); ?></h2>
+                            <h1 class="text-xl font-bold mb-2">
+                              <?php echo htmlentities($result->BookName); ?>
+                            </h1>
+                            <h2 class="text-sm font-semibold mb-4">
+                              <?php echo htmlentities($result->CategoryName); ?>
+                            </h2>
                             <p class="text-sm font-semibold text-left">Author:</p>
                             <ul class="list-none mb-4">
-                              <li class="text-xs text-left"><?php echo htmlentities($result->AuthorName); ?></li>
+                              <li class="text-xs text-left">
+                                <?php echo htmlentities($result->AuthorName); ?>
+                              </li>
                             </ul>
                             <p class="text-sm font-semibold text-left">Ditambahkan pada:</p>
                             <ul class="list-none mb-4">
-                              <li class="text-xs text-left"><?php echo htmlentities($result->RegDate); ?></li>
+                              <li class="text-xs text-left">
+                                <?php echo htmlentities($result->RegDate); ?>
+                              </li>
                             </ul>
                             <p class="text-sm font-semibold text-left">Harga:</p>
                             <ul class="list-none mb-4">
-                              <li class="text-xs text-left"><?php echo htmlentities($result->BookPrice); ?>k</li>
+                              <li class="text-xs text-left">
+                                <?php echo htmlentities($result->BookPrice); ?>k
+                              </li>
                             </ul>
                           </div>
                         </div>
@@ -188,6 +198,7 @@ if (strlen($_SESSION['login']) == 0) {
             </div>
           </div>
         </section>
+
 
 
         <!-- CONTENT-WRAPPER SECTION END-->
