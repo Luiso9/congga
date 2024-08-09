@@ -33,7 +33,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <!------MENU SECTION START-->
     <?php include ('includes/header.php'); ?>
     <!-- MENU SECTION END-->
-    <div class="content-wrapper">
+    <div class="content-wrapper ">
         <div class="container mx-auto">
             <div class="row pad-botm">
                 <div class="col-md-12">
