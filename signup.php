@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('includes/config.php');
+include('includes/config.php');
 error_reporting(0);
 if (isset($_POST['signup'])) {
     //code for captach verification
@@ -47,13 +47,8 @@ if (isset($_POST['signup'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <![endif]-->
-        <title>Perpustakaan</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
+    <title>Perpustakaan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
@@ -77,20 +72,42 @@ if (isset($_POST['signup'])) {
                 url: "check_availability.php",
                 data: 'emailid=' + $("#emailid").val(),
                 type: "POST",
-                success: function (data) {
+                success: function(data) {
                     $("#user-availability-status").html(data);
                     $("#loaderIcon").hide();
                 },
-                error: function () { }
+                error: function() {}
             });
+        }
+    </script> 
+    <script> // Warna teks input form
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#DB924B', // Primary color
+                        secondary: '#C27852', // Secondary color
+                        accent: '#A6692F', // Accent color
+                        asli: '#1B1A17', // Neutral color for text and backgrounds
+                        'base-100': '#F7F3E3', // Base background color
+                        'base-200': '#EFE6D8', // Slightly darker than base-100
+                        'base-300': '#E1D3C3', // Slightly darker than base-200
+                        'base-content': '#1B1A17', // Default content color for base-100
+                        info: '#9AB8D5', // Info messages
+                        success: '#57B078', // Success messages
+                        warning: '#CB9442', // Warning messages
+                        error: '#D95C52', // Error messages
+                    },
+                }
+            }
         }
     </script>
 
 </head>
 
-<body>
+<body class="bg-base-100 text-asli">
     <!------MENU SECTION START-->
-    <?php include ('includes/header.php'); ?>
+    <?php include('includes/header.php'); ?>
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container mx-auto">
@@ -101,15 +118,15 @@ if (isset($_POST['signup'])) {
             </div>
 
         </div>
-        <div class="max-w-xl p-5 mt-5 mx-auto shadow-md sm:shadow-none md:shadow-none">
+        <div class="max-w-xl p-5 mt-5 mx-auto shadow-md">
             <div class="mb-5">
                 <div class="panel panel-danger">
                     <div class="panel-body">
                         <form name="signup" method="post" onSubmit="return valid();">
                             <div class="mb-5">
-                                <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900">Enter
+                                <label for="fullanme" class="block mb-2 text-sm font-medium text-gray-900">Enter
                                     Full Name</label>
-                                <input type="text" name="fullname" id="fullname" autocomplete="off" required
+                                <input type="text" name="fullanme" id="fullanme" autocomplete="off" required
                                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
                             </div>
                             <div class="mb-5">
@@ -148,7 +165,7 @@ if (isset($_POST['signup'])) {
                                     class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-20 p-2" />
                             </div>
                             <button type="submit" name="signup"
-                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Register
+                                class="bg-primary hover:bg-secondary text-white focus:ring-4 focus:outline-none focus:bg-accent font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" href="index.php">Register
                                 Now</button>
                         </form>
                     </div>
@@ -159,10 +176,8 @@ if (isset($_POST['signup'])) {
     </div>
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
-    <?php include ('includes/footer.php'); ?>
+    <?php include('includes/footer.php'); ?>
     <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- CUSTOM SCRIPTS  -->
-    <script src="assets/js/custom.js"></script>
 </body>
 
 </html>

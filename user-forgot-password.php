@@ -42,6 +42,7 @@ if (isset($_POST['change'])) {
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <!-- FONT AWESOME STYLE  -->
   <link href="assets/css/font-awesome.css" rel="stylesheet" />
   <!-- CUSTOM STYLE  -->

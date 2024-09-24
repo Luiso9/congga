@@ -30,7 +30,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Edit Categories</title>
+        <title>Administrasi Perpustakaan</title>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
@@ -78,7 +78,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         ?>
                                         <div class="form-group">
                                             <label>Category Name</label>
-                                            <input class="form-control" type="text" name="category"
+                                            <input type="text" name="category" id="category"
                                                 value="<?php echo htmlentities($result->CategoryName); ?>" required />
                                         </div>
                                         <div class="form-group">

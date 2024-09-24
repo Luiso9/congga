@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include ('includes/config.php');
+include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
@@ -22,9 +22,8 @@ if (strlen($_SESSION['alogin']) == 0) {
             $_SESSION['error'] = "Something went wrong. Please try again";
             header('location:manage-issued-books.php');
         }
-
     }
-    ?>
+?>
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -33,7 +32,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Issue a new Book</title>
+        <title>Administrasi Perpustakaan</title>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
@@ -51,11 +50,11 @@ if (strlen($_SESSION['alogin']) == 0) {
                     url: "get_student.php",
                     data: 'studentid=' + $("#studentid").val(),
                     type: "POST",
-                    success: function (data) {
+                    success: function(data) {
                         $("#get_student_name").html(data);
                         $("#loaderIcon").hide();
                     },
-                    error: function () { }
+                    error: function() {}
                 });
             }
 
@@ -66,14 +65,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                     url: "get_book.php",
                     data: 'bookid=' + $("#bookid").val(),
                     type: "POST",
-                    success: function (data) {
+                    success: function(data) {
                         $("#get_book_name").html(data);
                         $("#loaderIcon").hide();
                     },
-                    error: function () { }
+                    error: function() {}
                 });
             }
-
         </script>
         <style type="text/css">
             .others {
@@ -86,7 +84,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     <body>
         <!------MENU SECTION START-->
-        <?php include ('includes/header.php'); ?>
+        <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->
         <div class="content-wra
     <div class=" content-wrapper">
@@ -96,45 +94,33 @@ if (strlen($_SESSION['alogin']) == 0) {
                         <h4 class="header-line">Issue a New Book</h4>
 
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-md-10 col-sm-6 col-xs-12 col-md-offset-1"">
-<div class=" panel panel-info">
+                            <div class=" panel panel-info">
                         <div class="panel-heading">
                             Issue a New Book
                         </div>
                         <div class="panel-body">
                             <form role="form" method="post">
-
                                 <div class="form-group">
                                     <label>Srtudent id<span style="color:red;">*</span></label>
                                     <input class="form-control" type="text" name="studentid" id="studentid"
                                         onBlur="getstudent()" autocomplete="off" required />
                                 </div>
-
                                 <div class="form-group">
                                     <span id="get_student_name" style="font-size:16px;"></span>
                                 </div>
-
-
-
-
-
                                 <div class="form-group">
                                     <label>ISBN Number or Book Title<span style="color:red;">*</span></label>
                                     <input class="form-control" type="text" name="booikid" id="bookid" onBlur="getbook()"
                                         required="required" />
                                 </div>
-
                                 <div class="form-group">
-
                                     <select class="form-control" name="bookdetails" id="get_book_name" readonly>
-
                                     </select>
                                 </div>
                                 <button type="submit" name="issue" id="submit" class="btn btn-info">Issue Book </button>
-
                             </form>
                         </div>
                     </div>
@@ -145,7 +131,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         </div>
         </div>
         <!-- CONTENT-WRAPPER SECTION END-->
-        <?php include ('includes/footer.php'); ?>
+        <?php include('includes/footer.php'); ?>
         <!-- FOOTER SECTION END-->
         <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
         <!-- CORE JQUERY  -->

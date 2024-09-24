@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('includes/config.php');
+include('includes/config.php');
 error_reporting(0);
 if (strlen($_SESSION['login']) == 0) {
     header('location:index.php');
@@ -19,8 +19,7 @@ if (strlen($_SESSION['login']) == 0) {
 
         echo '<script>alert("Profil mu sudah siap!!!")</script>';
     }
-
-    ?>
+?>
 
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,7 +31,6 @@ if (strlen($_SESSION['login']) == 0) {
         <meta name="author" content="" />
         <title>Perpustakaan</title>
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
         <script src="https://cdn.tailwindcss.com"></script>
         <!-- FONT AWESOME STYLE  -->
         <link href="assets/css/font-awesome.css" rel="stylesheet" />
@@ -40,93 +38,93 @@ if (strlen($_SESSION['login']) == 0) {
         <link href="assets/css/style.css" rel="stylesheet" />
         <!-- GOOGLE FONT -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
     </head>
 
-    <body data-theme="light">
+    <body class="bg-base-100 text-neutral">
         <!------MENU SECTION START-->
-        <?php include ('includes/header.php'); ?>
+        <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->
         <div class="content-wrapper">
-            <div class="container mx-auto">
+            <div class="container mx-auto py-8">
                 <div class="row pad-botm">
                     <div class="col-md-12">
-                        <h4 class="header-line">Profil</h4>
+                        <h4 class="header-line text-2xl font-bold text-primary">Profil</h4>
                     </div>
                 </div>
-            </div>
 
-            <!-- Batas -->
-            <section class="container mx-auto flex justify-center items-center">
-                <div class="card shadow-xl bg-indigo-400 image-full min-w-max group">
-                    <figure class="duration-300 transition blur-none ease-in-out group-hover:blur-md group-hover:duration-500">
-                        <img src="https://media.discordapp.net/attachments/809988356611112980/1270696869940428922/wallhaven-zxkpyy.jpg?ex=66b4a42e&is=66b352ae&hm=9e72c0ecbf6c529e375b104665c16d8835b713a1f13efacce1aef58642c6037c&=&format=webp&width=663&height=442"
-                            alt="Shoes" />
-                    </figure>
-
-                    <div class="card-body">
+                <!-- Profile Card -->
+                <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                    <div class="flex items-center justify-center bg-primary p-6">
+                        <img class="h-24 w-24 rounded-full border-4 border-white" src="https://picsum.photos/150" alt="User Profile Picture">
+                    </div>
+                    <div class="p-6">
                         <?php
                         $sid = $_SESSION['stdid'];
-                        $sql = "SELECT StudentId,FullName,EmailId,MobileNumber,RegDate,UpdationDate,Status from  tblstudents  where StudentId=:sid ";
+                        $sql = "SELECT StudentId,FullName,EmailId,MobileNumber,RegDate,UpdationDate,Status from tblstudents where StudentId=:sid ";
                         $query = $dbh->prepare($sql);
                         $query->bindParam(':sid', $sid, PDO::PARAM_STR);
                         $query->execute();
                         $results = $query->fetchAll(PDO::FETCH_OBJ);
-                        $cnt = 1;
                         if ($query->rowCount() > 0) {
                             foreach ($results as $result) { ?>
 
-                                <div class="join">
-                                    <label class="join-item mx-5 font-bold text-indigo-400">Student ID : </label>
-                                    <?php echo htmlentities($result->StudentId); ?>
+                                <div class="mb-4">
+                                    <label class="block text-neutral font-bold">Student ID:</label>
+                                    <p class="text-base-content"><?php echo htmlentities($result->StudentId); ?></p>
                                 </div>
 
-                                <div class="join">
-                                    <label class="join-item mx-5 font-bold">Reg Date : </label>
-                                    <?php echo htmlentities($result->RegDate); ?>
+                                <div class="mb-4">
+                                    <label class="block text-neutral font-bold">Reg Date:</label>
+                                    <p class="text-base-content"><?php echo htmlentities($result->RegDate); ?></p>
                                 </div>
                                 <?php if ($result->UpdationDate != "") { ?>
-                                    <div class="join-item mx-5">
-                                        <label class="font-bold">Last Updation Date : </label>
-                                        <?php echo htmlentities($result->UpdationDate); ?>
+                                    <div class="mb-4">
+                                        <label class="block text-neutral font-bold">Last Updation Date:</label>
+                                        <p class="text-base-content"><?php echo htmlentities($result->UpdationDate); ?></p>
                                     </div>
                                 <?php } ?>
 
-
-                                <div class="join">
-                                    <label class="join-item mx-5 font-bold">Profile Status : </label>
-                                    <?php if ($result->Status == 1) { ?>
-                                        <span style="color: green">Active</span>
-                                    <?php } else { ?>
-                                        <span style="color: red">Blocked</span>
-                                    <?php } ?>
+                                <div class="mb-4">
+                                    <label class="block text-neutral font-bold">Profile Status:</label>
+                                    <p class="text-base-content">
+                                        <?php if ($result->Status == 1) { ?>
+                                            <span class="text-success font-semibold">Active</span>
+                                        <?php } else { ?>
+                                            <span class="text-error font-semibold">Blocked</span>
+                                        <?php } ?>
+                                    </p>
                                 </div>
 
-
-                                <div class="join">
-                                    <label class="join-item mx-5 font-bold">Nama Lengkap : </label>
-                                    <?php echo htmlentities($result->FullName); ?>
+                                <div class="mb-4">
+                                    <label class="block text-neutral font-bold">Nama Lengkap:</label>
+                                    <p class="text-base-content"><?php echo htmlentities($result->FullName); ?></p>
                                 </div>
 
-
-                                <div class="join">
-                                    <label class="join-item mx-5 font-bold">Telp :</label>
-                                    <?php echo htmlentities($result->MobileNumber); ?>
+                                <div class="mb-4">
+                                    <label class="block text-neutral font-bold">Telp:</label>
+                                    <p class="text-base-content"><?php echo htmlentities($result->MobileNumber); ?></p>
                                 </div>
 
-                                <div class="join">
-                                    <label class="join-item mx-5 font-bold">Enter Email :</label>
-                                    <?php echo htmlentities($result->EmailId); ?>
+                                <div class="mb-4">
+                                    <label class="block text-neutral font-bold">Enter Email:</label>
+                                    <p class="text-base-content"><?php echo htmlentities($result->EmailId); ?></p>
                                 </div>
-                            <?php }
+                        <?php }
                         } ?>
-            </section>
+                    </div>
+                </div>
 
-            <!-- Batas -->
+                <!-- Edit Profile Button -->
+                <div class="text-center mt-8">
+                    <a href="edit-profile.php" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-full">
+                        Edit Profile
+                    </a>
+                </div>
+            </div>
         </div>
 
         <!-- CONTENT-WRAPPER SECTION END-->
-        <?php include ('includes/footer.php'); ?>
+        <?php include('includes/footer.php'); ?>
         <script src="assets/js/jquery-1.10.2.js"></script>
         <!-- CUSTOM SCRIPTS  -->
         <script src="assets/js/custom.js"></script>

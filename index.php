@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include ('includes/config.php');
+include('includes/config.php');
 if ($_SESSION['login'] != '') {
   $_SESSION['login'] = '';
 }
@@ -27,10 +27,8 @@ if (isset($_POST['login'])) {
           echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
         } else {
           echo "<script>alert('Your Account Has been blocked .Please contact admin');</script>";
-
         }
       }
-
     } else {
       echo "<script>alert('Invalid Details');</script>";
     }
@@ -49,60 +47,54 @@ if (isset($_POST['login'])) {
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="assets/css/font-awesome.css" rel="stylesheet" />
   <link href="assets/css/style.css" rel="stylesheet" />
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
 </head>
 
-<body>
+<body class="">
   <!------MENU SECTION START-->
-  <?php include ('includes/header.php'); ?>
+  <?php include('includes/header.php'); ?>
   <!-- MENU SECTION END-->
+
   <div class="content-wrapper">
     <div class="container mx-auto">
       <div class="flex justify-center items-center">
         <div class="my-4">
-          <h4 class="header-line">USER LOGIN FORM</h4>
+          <h4 class="header-line text-2xl font-bold text-primary">CINA DILARANG LOGIN</h4>
         </div>
       </div>
 
       <!--LOGIN PANEL START-->
-      <form class="max-w-md p-5 mt-5 mx-auto shadow-md" role="form" method="post">
-        <div class="mb-5">
-          <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email kamu</label>
+      <form  role="form" method="post">
+        <div >
+          <label for="email">Email kamu</label>
           <input type="text" id="username" name="emailid"
-            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="cina@gmail.com" required />
         </div>
         <div class="mb-5">
-          <label for="password" class="block mb-2 text-sm font-medium">Password</label>
+          <label for="password" >Password</label>
           <input type="password" name="password"
-            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required />
         </div>
-        <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900">Verification code
-            <input type="text" name="vercode" maxlength="5" autocomplete="off" required
-              class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-20 p-2" />&nbsp;<img
-              src="captcha.php">
-          </label>
+        <div >
+          <label >Verification code</label>
+          <input type="text" name="vercode" maxlength="5" autocomplete="off" required />
+          <img src="captcha.php" class="mt-2" />
         </div>
-        <button type="submit" name="login"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+        <button type="submit" name="login">Submit</button>
       </form>
       <!---LOGIN PANEL END-->
-
-
     </div>
   </div>
+
   <!-- CONTENT-WRAPPER SECTION END-->
-  <?php include ('includes/footer.php'); ?>
+  <?php include('includes/footer.php'); ?>
   <!-- FOOTER SECTION END-->
   <script src="assets/js/jquery-1.10.2.js"></script>
   <!-- CUSTOM SCRIPTS  -->
   <script src="assets/js/custom.js"></script>
-
 </body>
 
 </html>

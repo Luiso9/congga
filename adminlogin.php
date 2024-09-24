@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include ('includes/config.php');
+include('includes/config.php');
 if ($_SESSION['alogin'] != '') {
     $_SESSION['alogin'] = '';
 }
@@ -37,31 +37,48 @@ if (isset($_POST['login'])) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Perpustakaan</title>
-    <script
-        src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#DB924B', // Primary color
+                        secondary: '#C27852', // Secondary color
+                        accent: '#A6692F', // Accent color
+                        asli: '#1B1A17', // Neutral color for text and backgrounds
+                        'base-100': '#F7F3E3', // Base background color
+                        'base-200': '#EFE6D8', // Slightly darker than base-100
+                        'base-300': '#E1D3C3', // Slightly darker than base-200
+                        'base-content': '#1B1A17', // Default content color for base-100
+                        info: '#9AB8D5', // Info messages
+                        success: '#57B078', // Success messages
+                        warning: '#CB9442', // Warning messages
+                        error: '#D95C52', // Error messages
+                    },
+                }
+            }
+        }
+    </script>
 </head>
 
-<body>
+<body class="bg-base-100 text-asli">
     <!------MENU SECTION START-->
-    <?php include ('includes/header.php'); ?>
+    <?php include('includes/header.php'); ?>
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container mx-auto">
             <div class="flex justify-center items-center">
                 <div class="my-4">
-                    <h4 class="header-line">ADMIN LOGIN FORM</h4>
+                    <h4 class="header-line text-neutral">ADMIN LOGIN FORM</h4>
                 </div>
             </div>
 
             <!--LOGIN PANEL START-->
-
-
-            <form class="max-w-md p-5 mt-5 mx-auto shadow-md"  role="form" method="post">
+            <form class="max-w-md p-5 mt-5 mx-auto shadow-md" role="form" method="post">
                 <div class="mb-5">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email kamu</label>
                     <input type="text" id="username" name="username"
@@ -82,46 +99,13 @@ if (isset($_POST['login'])) {
                     </label>
                 </div>
                 <button type="submit" name="login"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                    class="bg-primary hover:bg-secondary text-white focus:ring-4 focus:outline-none focus:bg-accent font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
             </form>
 
-            <!-- <div class="max-w-sm mx-auto">
-                <div class="">
-                    <div class="header">
-                        <div class="panel-heading">
-                            LOGIN FORM
-                        </div>
-                        <div class="panel-body">
-                            <form role="form" method="post">
-
-                                <div class="form-group">
-                                    <label>Enter Username</label>
-                                    <input class="form-control" type="text" name="username" autocomplete="off"
-                                        required />
-                                </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input class="form-control" type="password" name="password" autocomplete="off"
-                                        required />
-                                </div>
-                                <div class="form-group">
-                                    <label>Verification code : </label>
-                                   <input type="text" name="vercode" maxlength="5" autocomplete="off" required
-                                        style="width: 150px; height: 25px;" />&nbsp;<img src="captcha.php">
         </div>
-                 <button type="submit" name="login" class="btn btn-info">LOGIN </button> -->
-            </form>
-        </div>
-    </div>
-    </div>
-    </div>
-    <!---LOGIN PABNEL END-->
-
-
-    </div>
     </div>
     <!-- CONTENT-WRAPPER SECTION END-->
-    <?php include ('includes/footer.php'); ?>
+    <?php include('includes/footer.php'); ?>
     <!-- FOOTER SECTION END-->
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
