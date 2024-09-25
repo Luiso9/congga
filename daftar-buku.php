@@ -48,6 +48,7 @@ if (isset($_SESSION['error'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perpustakaan</title>
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <style>
@@ -84,14 +85,17 @@ if (isset($_SESSION['error'])) {
     h1 {
         text-align: center;
         margin-top: 20px;
+        color: black;
     }
 
     h3 {
         margin-bottom: 10px;
         font-size: 1.25rem;
+        color: black;
     }
 
     p {
         margin: 5px 0;
+        color: black;
     }
 </style>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('includes/config.php');
+include('includes/config.php');
 ?>
 
 <!DOCTYPE html>
@@ -13,20 +13,17 @@ include ('includes/config.php');
     <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css">
 </head>
 
-<body class="bg-near-white black-80">
+<body class="white black-80">
 
     <!-- Navbar -->
     <header class="bg-black-90 sticky w-100 ph3 pv3 pv2-ns ph4-m ph5-l">
         <nav class="f6 fw6 ttu tracked">
-            <a class="link dim white dib mr3" href="dashboard.php" title="Dashboard">Dashboard</a>
-            <a class="link dim white dib mr3" href="issued-books.php" title="Buku Dipinjam">Buku Dipinjam</a>
-            <a class="link dim white dib mr3" href="daftar-buku.php" title="Daftar Buku">Daftar Buku</a>
-
-            <!-- Conditional Login / Logout Links based on Session -->
             <?php if ($_SESSION['login']) { ?>
+                <a class="link dim white dib mr3" href="dashboard.php" title="Dashboard">Dashboard</a>
+                <a class="link dim white dib mr3" href="issued-books.php" title="Buku Dipinjam">Buku Dipinjam</a>
+                <a class="link dim white dib mr3" href="daftar-buku.php" title="Daftar Buku">Daftar Buku</a>
                 <a class="link dim white dib" href="logout.php" title="Keluar">Keluar</a>
 
-                <!-- User Profile and Status Display -->
                 <span class="link dim white dib ml3">
                     <?php
                     $sid = $_SESSION['stdid'];
@@ -47,7 +44,7 @@ include ('includes/config.php');
                                     <div class="bg-red white br-pill ph3 pv2">Blocked</div>
                                 <?php } ?>
                             </div>
-                        <?php }
+                    <?php }
                     } ?>
                 </span>
             <?php } else { ?>
