@@ -163,7 +163,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                         <form method="post">
                             <div>
                                 <label for="category" class="block text-sm font-medium text-gray-700">Nama Buku</label>
-                                <input type="text" name="category" id="category"
+                                <input type="text" name="bookname" id="category"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" name="bookname" autocomplete="off" required />
                             </div>
                             <div class="mt-4">
@@ -211,9 +211,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                             </div>
                             <div class="mt-4">
                                 <label for="category" class="block text-sm font-medium text-gray-700">Nomor Buku</label>
-                                <input type="text" name="category" name="isbn" required="required"
+                                <input type="text" name="isbn" required="required"
                                     autocomplete="off"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" name="category" required />
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" required />
                             </div>
                             <div class="mt-2">
                                 <label for="category" class="block text-sm font-medium text-gray-700">Harga</label>
@@ -235,8 +235,8 @@ if (strlen($_SESSION['alogin']) == 0) {
                             </div>
 
                             <div class="mt-6">
-                                <button type="file" name="bookcover"
-                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" >
+                                <button type="submit" name="add"
+                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                                     Tambah Buku
                                 </button>
                             </div>

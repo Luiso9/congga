@@ -8,25 +8,34 @@ if (strlen($_SESSION['login']) == 0) {
     exit;
 } else {
     try {
-        $sql = "SELECT BookName, CatId, AuthorId, ISBNNumber, BookPrice, BookCover FROM tblbooks";
+        $sql = "
+            SELECT b.BookName, b.ISBNNumber, b.BookPrice, b.BookCover, c.CategoryName, a.AuthorName
+            FROM tblbooks b
+            JOIN tblcategory c ON b.CatId = c.id
+            JOIN tblauthors a ON b.AuthorId = a.id
+        ";
         $query = $dbh->prepare($sql);
         $query->execute();
         $books = $query->fetchAll(PDO::FETCH_ASSOC);
         if ($books) {
             include('includes/header.php');
-            echo "<h1>Daftar Buku</h1>";
-            echo "<div class='grid-container'>";
+            echo "<h1 class='tc'>Daftar Buku</h1>";
+            echo "<section class='cf w-100 pa2-ns'>";
             foreach ($books as $book) {
-                echo "<div class='book-card'>";
+                echo "<article class='fl w-100 w-50-m w-25-ns pa2-ns'>";
+                echo "<div class='aspect-ratio aspect-ratio--1x1'>";
                 $imagePath = htmlspecialchars($book['BookCover']);
-                echo "<img src='admin/$imagePath' alt='Book Cover' class='book-cover'>";
-                echo "<h3>" . htmlspecialchars($book['BookName']) . "</h3>";
-                echo "<p>Category ID: " . htmlspecialchars($book['CatId']) . "</p>";
-                echo "<p>Author ID: " . htmlspecialchars($book['AuthorId']) . "</p>";
-                echo "<p>ISBN: " . htmlspecialchars($book['ISBNNumber']) . "</p>";
+                echo "<img src='admin/$imagePath' alt='Book Cover' class='db bg-center cover aspect-ratio--object' style='object-fit: cover; height: 100%; width: 100%;' />";
                 echo "</div>";
+                echo "<a href='javascript:void(0);' onclick=\"openModal('" . htmlspecialchars($book['ISBNNumber']) . "', '" . htmlspecialchars($book['BookName']) . "')\" class='ph2 ph0-ns pb3 link db'>";
+                echo "<h3 class='f5 f4-ns mb0 black-90'>" . htmlspecialchars($book['BookName']) . "</h3>";
+                echo "<p class='f6 f5 fw4 mt2 black-60'>Category: " . htmlspecialchars($book['CategoryName']) . "</p>";
+                echo "<p class='f6 f5 fw4 mt2 black-60'>Author: " . htmlspecialchars($book['AuthorName']) . "</p>";
+                echo "<p class='f6 f5 fw4 mt2 black-60'>ISBN: " . htmlspecialchars($book['ISBNNumber']) . "</p>";
+                echo "</a>";
+                echo "</article>";
             }
-            echo "</div>";
+            echo "</section>";
         } else {
             $_SESSION['error'] = "No books found in the database.";
         }
@@ -40,57 +49,29 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perpustakaan</title>
-    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-</head>
+<!-- Modal Structure -->
+<div id="requestModal" class="modal fixed top-0 left-0 w-100 h-100 flex items-center justify-center bg-black-50" style="display:none; z-index: 1000;">
+    <div class="modal-content bg-white br3 pa4 shadow-5">
+        <span class="close fr f4 link dim" onclick="closeModal()">&times;</span>
+        <h2 class="f5 black">Confirm Borrow Request</h2>
+        <p>Are you sure you want to borrow <strong id="modal-book-name"></strong>?</p>
+        <form action="process_borrow_request.php" method="POST">
+            <input type="hidden" name="bookId" id="confirm-borrow-book-id">
+            <button type="submit" class="f6 link dim br3 ph3 pv2 mb2 dib white bg-blue">Yes, borrow</button>
+            <button type="button" class="f6 link dim br3 ph3 pv2 mb2 dib white bg-red" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
 
 <style>
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .book-card {
-        background-color: #f8f9fa;
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        text-align: center;
-        transition: transform 0.2s;
-    }
-
-    .book-card:hover {
-        transform: scale(1.05);
-    }
-
-    .book-cover {
-        width: 100%;
-        height: auto;
-        max-height: 250px;
-        object-fit: cover;
-        border-radius: 5px;
-        margin-bottom: 10px;
+    body {
+        background-color: white;
+        font-family: "Roboto", sans-serif;
     }
 
     h1 {
-        text-align: center;
         margin-top: 20px;
-        color: black;
-    }
-
-    h3 {
-        margin-bottom: 10px;
-        font-size: 1.25rem;
         color: black;
     }
 
@@ -98,4 +79,42 @@ if (isset($_SESSION['error'])) {
         margin: 5px 0;
         color: black;
     }
+
+    .aspect-ratio {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+    }
+
+    .aspect-ratio--object {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+    }
 </style>
+
+<script>
+    function openModal(bookId, bookName) {
+        document.getElementById('confirm-borrow-book-id').value = bookId;
+        document.getElementById('modal-book-name').innerText = bookName;
+        document.getElementById('requestModal').style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById('requestModal').style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('requestModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
+
+<?php include('includes/footer.php'); ?>

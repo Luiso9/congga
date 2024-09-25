@@ -30,8 +30,6 @@ if (strlen($_SESSION['login']) == 0) {
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Perpustakaan</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
         <!-- FONT AWESOME STYLE  -->
         <link href="assets/css/font-awesome.css" rel="stylesheet" />
         <!-- CUSTOM STYLE  -->
@@ -40,7 +38,7 @@ if (strlen($_SESSION['login']) == 0) {
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     </head>
 
-    <body class="bg-base-100 text-neutral">
+    <body>
         <!------MENU SECTION START-->
         <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->
@@ -53,11 +51,11 @@ if (strlen($_SESSION['login']) == 0) {
                 </div>
 
                 <!-- Profile Card -->
-                <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                    <div class="flex items-center justify-center bg-primary p-6">
-                        <img class="h-24 w-24 rounded-full border-4 border-white" src="https://picsum.photos/150" alt="User Profile Picture">
+                <div>
+                    <div>
+                        <img src="https://picsum.photos/150" alt="User Profile Picture">
                     </div>
-                    <div class="p-6">
+                    <div>
                         <?php
                         $sid = $_SESSION['stdid'];
                         $sql = "SELECT StudentId,FullName,EmailId,MobileNumber,RegDate,UpdationDate,Status from tblstudents where StudentId=:sid ";
@@ -69,45 +67,45 @@ if (strlen($_SESSION['login']) == 0) {
                             foreach ($results as $result) { ?>
 
                                 <div class="mb-4">
-                                    <label class="block text-neutral font-bold">Student ID:</label>
-                                    <p class="text-base-content"><?php echo htmlentities($result->StudentId); ?></p>
+                                    <label>Student ID:</label>
+                                    <p><?php echo htmlentities($result->StudentId); ?></p>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="block text-neutral font-bold">Reg Date:</label>
-                                    <p class="text-base-content"><?php echo htmlentities($result->RegDate); ?></p>
+                                    <label>Reg Date:</label>
+                                    <p><?php echo htmlentities($result->RegDate); ?></p>
                                 </div>
                                 <?php if ($result->UpdationDate != "") { ?>
                                     <div class="mb-4">
-                                        <label class="block text-neutral font-bold">Last Updation Date:</label>
-                                        <p class="text-base-content"><?php echo htmlentities($result->UpdationDate); ?></p>
+                                        <label>Last Updation Date:</label>
+                                        <p><?php echo htmlentities($result->UpdationDate); ?></p>
                                     </div>
                                 <?php } ?>
 
                                 <div class="mb-4">
-                                    <label class="block text-neutral font-bold">Profile Status:</label>
-                                    <p class="text-base-content">
+                                    <label>Profile Status:</label>
+                                    <p>
                                         <?php if ($result->Status == 1) { ?>
-                                            <span class="text-success font-semibold">Active</span>
+                                            <span>Active</span>
                                         <?php } else { ?>
-                                            <span class="text-error font-semibold">Blocked</span>
+                                            <span>Blocked</span>
                                         <?php } ?>
                                     </p>
                                 </div>
 
-                                <div class="mb-4">
-                                    <label class="block text-neutral font-bold">Nama Lengkap:</label>
-                                    <p class="text-base-content"><?php echo htmlentities($result->FullName); ?></p>
+                                <div>
+                                    <label>Nama Lengkap:</label>
+                                    <p><?php echo htmlentities($result->FullName); ?></p>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="block text-neutral font-bold">Telp:</label>
-                                    <p class="text-base-content"><?php echo htmlentities($result->MobileNumber); ?></p>
+                                    <label>Telp:</label>
+                                    <p><?php echo htmlentities($result->MobileNumber); ?></p>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="block text-neutral font-bold">Enter Email:</label>
-                                    <p class="text-base-content"><?php echo htmlentities($result->EmailId); ?></p>
+                                    <label>Enter Email:</label>
+                                    <p><?php echo htmlentities($result->EmailId); ?></p>
                                 </div>
                         <?php }
                         } ?>
@@ -116,7 +114,7 @@ if (strlen($_SESSION['login']) == 0) {
 
                 <!-- Edit Profile Button -->
                 <div class="text-center mt-8">
-                    <a href="edit-profile.php" class="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-full">
+                    <a href="edit-profile.php">
                         Edit Profile
                     </a>
                 </div>

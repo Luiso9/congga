@@ -2,39 +2,42 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
-if ($_SESSION['login'] != '') {
-  $_SESSION['login'] = '';
-}
-if (isset($_POST['login'])) {
-  //code for captach verification
-  if ($_POST["vercode"] != $_SESSION["vercode"] or $_SESSION["vercode"] == '') {
-    echo "<script>alert('Incorrect verification code');</script>";
-  } else {
-    $email = $_POST['emailid'];
-    $password = md5($_POST['password']);
-    $sql = "SELECT EmailId,Password,StudentId,Status FROM tblstudents WHERE EmailId=:email and Password=:password";
-    $query = $dbh->prepare($sql);
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
-    $query->bindParam(':password', $password, PDO::PARAM_STR);
-    $query->execute();
-    $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-    if ($query->rowCount() > 0) {
-      foreach ($results as $result) {
-        $_SESSION['stdid'] = $result->StudentId;
-        if ($result->Status == 1) {
-          $_SESSION['login'] = $_POST['emailid'];
-          echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
-        } else {
-          echo "<script>alert('Your Account Has been blocked .Please contact admin');</script>";
-        }
-      }
+if (isset($_SESSION['login']) && $_SESSION['login'] != '') {
+    $_SESSION['login'] = '';
+}
+
+if (isset($_POST['login'])) {
+    // Code for captcha verification
+    if ($_POST["vercode"] != $_SESSION["vercode"] || empty($_SESSION["vercode"])) {
+        echo "<script>alert('Incorrect verification code');</script>";
     } else {
-      echo "<script>alert('Invalid Details');</script>";
+        $email = $_POST['emailid'];
+        $password = md5($_POST['password']); // Consider using password_hash in production
+        $sql = "SELECT EmailId, Password, StudentId, Status FROM tblstudents WHERE EmailId = :email AND Password = :password";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':password', $password, PDO::PARAM_STR);
+        $query->execute();
+        $results = $query->fetchAll(PDO::FETCH_OBJ);
+
+        if ($query->rowCount() > 0) {
+            foreach ($results as $result) {
+                $_SESSION['stdid'] = $result->StudentId; // Store student ID in session
+                if ($result->Status == 1) {
+                    $_SESSION['login'] = $email; // Store email in session
+                    echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
+                } else {
+                    echo "<script>alert('Your account has been blocked. Please contact admin.');</script>";
+                }
+            }
+        } else {
+            echo "<script>alert('Invalid details. Please check your email and password.');</script>";
+        }
     }
-  }
 }
 ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -44,52 +47,56 @@ if (isset($_POST['login'])) {
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Perpustakaan</title>
+  <link href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" rel="stylesheet" />
   <link href="assets/css/font-awesome.css" rel="stylesheet" />
   <link href="assets/css/style.css" rel="stylesheet" />
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
 
-<body class="">
-  <!------MENU SECTION START-->
+<body class="bg-light-gray">
+  <!-- MENU SECTION START-->
   <?php include('includes/header.php'); ?>
   <!-- MENU SECTION END-->
 
   <div class="content-wrapper">
-    <div class="container mx-auto">
-      <div class="flex justify-center items-center">
-        <div class="my-4">
-          <h4 class="header-line text-2xl font-bold text-primary">CINA DILARANG LOGIN</h4>
+    <div class="container center">
+      <div class="flex justify-center items-center min-vh-100">
+        <div class="w-100 w-50-m w-30-l pa4 bg-white shadow-4 br3">
+          <h4 class="header-line f3 fw6 tc dark-red mb4">CINA DILARANG LOGIN</h4>
+          
+          <!-- LOGIN PANEL START -->
+          <form role="form" method="post">
+            <div class="mb3">
+              <label for="email" class="f6 b db mb2">Email kamu</label>
+              <input type="text" id="username" name="emailid" placeholder="cina@gmail.com" required 
+              class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+            </div>
+
+            <div class="mb3">
+              <label for="password" class="f6 b db mb2">Password</label>
+              <input type="password" name="password" required 
+              class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+            </div>
+
+            <div class="mb3">
+              <label for="vercode" class="f6 b db mb2">Verification code</label>
+              <input type="text" name="vercode" maxlength="5" autocomplete="off" required 
+              class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+              <img src="captcha.php" class="db mt3" alt="Verification code" />
+            </div>
+
+            <button type="submit" name="login" class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib">Submit</button>
+          </form>
+          <!-- LOGIN PANEL END -->
         </div>
       </div>
-
-      <!--LOGIN PANEL START-->
-      <form  role="form" method="post">
-        <div >
-          <label for="email">Email kamu</label>
-          <input type="text" id="username" name="emailid"
-            placeholder="cina@gmail.com" required />
-        </div>
-        <div class="mb-5">
-          <label for="password" >Password</label>
-          <input type="password" name="password"
-            required />
-        </div>
-        <div >
-          <label >Verification code</label>
-          <input type="text" name="vercode" maxlength="5" autocomplete="off" required />
-          <img src="captcha.php" class="mt-2" />
-        </div>
-        <button type="submit" name="login">Submit</button>
-      </form>
-      <!---LOGIN PANEL END-->
     </div>
   </div>
 
-  <!-- CONTENT-WRAPPER SECTION END-->
+  <!-- CONTENT-WRAPPER SECTION END -->
   <?php include('includes/footer.php'); ?>
-  <!-- FOOTER SECTION END-->
+  <!-- FOOTER SECTION END -->
   <script src="assets/js/jquery-1.10.2.js"></script>
-  <!-- CUSTOM SCRIPTS  -->
+  <!-- CUSTOM SCRIPTS -->
   <script src="assets/js/custom.js"></script>
 </body>
 

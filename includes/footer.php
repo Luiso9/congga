@@ -1,8 +1,8 @@
-<footer class="rounded-lg m-4">
-  <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-
-    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#"
-        class="hover:underline">SMKN 3 Yogyakarta</a>. All Rights Reserved.
-    </span>
+<footer class="pv4 ph3 ph5-m ph6-l mid-gray">
+  <small class="f6 db tc">© 2016 <b class="ttu">Barang Dagangan Cina Inc</b>., All Rights Reserved</small>
+  <div class="tc mt3">
+    <a href="/language/" title="Language" class="f6 dib ph2 link mid-gray dim">Language</a>
+    <a href="/terms/"    title="Terms" class="f6 dib ph2 link mid-gray dim">Terms of Use</a>
+    <a href="/privacy/"  title="Privacy" class="f6 dib ph2 link mid-gray dim">Privacy</a>
   </div>
 </footer>

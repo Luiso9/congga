@@ -3,7 +3,7 @@ session_start();
 include('includes/config.php');
 error_reporting(0);
 if (isset($_POST['signup'])) {
-    //code for captach verification
+    //code for captcha verification
     if ($_POST["vercode"] != $_SESSION["vercode"] or $_SESSION["vercode"] == '') {
         echo "<script>alert('Incorrect verification code');</script>";
     } else {
@@ -20,7 +20,8 @@ if (isset($_POST['signup'])) {
         $email = $_POST['email'];
         $password = md5($_POST['password']);
         $status = 1;
-        $sql = "INSERT INTO  tblstudents(StudentId,FullName,MobileNumber,EmailId,Password,Status) VALUES(:StudentId,:fname,:mobileno,:email,:password,:status)";
+        $sql = "INSERT INTO  tblstudents(StudentId, FullName, MobileNumber, EmailId, Password, Status) 
+                VALUES(:StudentId, :fname, :mobileno, :email, :password, :status)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':StudentId', $StudentId, PDO::PARAM_STR);
         $query->bindParam(':fname', $fname, PDO::PARAM_STR);
@@ -31,7 +32,7 @@ if (isset($_POST['signup'])) {
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
         if ($lastInsertId) {
-            echo '<script>alert("Your Registration successfull and your student id is  "+"' . $StudentId . '")</script>';
+            echo "<script>alert('Your Registration successful and your student id is $StudentId');</script>";
         } else {
             echo "<script>alert('Something went wrong. Please try again');</script>";
         }
@@ -48,7 +49,7 @@ if (isset($_POST['signup'])) {
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Perpustakaan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" rel="stylesheet" />
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
@@ -58,7 +59,7 @@ if (isset($_POST['signup'])) {
     <script type="text/javascript">
         function valid() {
             if (document.signup.password.value != document.signup.confirmpassword.value) {
-                alert("Password and Confirm Password Field do not match  !!");
+                alert("Password and Confirm Password do not match!");
                 document.signup.confirmpassword.focus();
                 return false;
             }
@@ -72,109 +73,76 @@ if (isset($_POST['signup'])) {
                 url: "check_availability.php",
                 data: 'emailid=' + $("#emailid").val(),
                 type: "POST",
-                success: function(data) {
+                success: function (data) {
                     $("#user-availability-status").html(data);
                     $("#loaderIcon").hide();
                 },
-                error: function() {}
+                error: function () { }
             });
         }
-    </script> 
-    <script> // Warna teks input form
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#DB924B', // Primary color
-                        secondary: '#C27852', // Secondary color
-                        accent: '#A6692F', // Accent color
-                        asli: '#1B1A17', // Neutral color for text and backgrounds
-                        'base-100': '#F7F3E3', // Base background color
-                        'base-200': '#EFE6D8', // Slightly darker than base-100
-                        'base-300': '#E1D3C3', // Slightly darker than base-200
-                        'base-content': '#1B1A17', // Default content color for base-100
-                        info: '#9AB8D5', // Info messages
-                        success: '#57B078', // Success messages
-                        warning: '#CB9442', // Warning messages
-                        error: '#D95C52', // Error messages
-                    },
-                }
-            }
-        }
     </script>
-
 </head>
 
-<body class="bg-base-100 text-asli">
+<body class="bg-near-white">
     <!------MENU SECTION START-->
     <?php include('includes/header.php'); ?>
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
-        <div class="container mx-auto">
+        <div class="container center">
             <div class="flex justify-center items-center">
                 <div class="my-4">
-                    <h4 class="header-line">USER SIGN UP</h4>
+                    <h4 class="f3 fw6 dark-red tc">USER SIGN UP</h4>
                 </div>
             </div>
 
-        </div>
-        <div class="max-w-xl p-5 mt-5 mx-auto shadow-md">
-            <div class="mb-5">
-                <div class="panel panel-danger">
-                    <div class="panel-body">
-                        <form name="signup" method="post" onSubmit="return valid();">
-                            <div class="mb-5">
-                                <label for="fullanme" class="block mb-2 text-sm font-medium text-gray-900">Enter
-                                    Full Name</label>
-                                <input type="text" name="fullanme" id="fullanme" autocomplete="off" required
-                                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                            </div>
-                            <div class="mb-5">
-                                <label for="mobileno" class="block mb-2 text-sm font-medium text-gray-900">Mobile
-                                    Number</label>
-                                <input type="text" name="mobileno" id="mobileno" maxlength="10" autocomplete="off"
-                                    required
-                                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                            </div>
-                            <div class="mb-5">
-                                <label for="emailid" class="block mb-2 text-sm font-medium text-gray-900">Enter
-                                    Email</label>
-                                <input type="email" name="email" id="emailid" onBlur="checkAvailability()"
-                                    autocomplete="off" required
-                                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                                <span id="user-availability-status" style="font-size:12px;"></span>
-                            </div>
-                            <div class="mb-5">
-                                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Enter
-                                    Password</label>
-                                <input type="password" name="password" id="password" autocomplete="off" required
-                                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                            </div>
-                            <div class="mb-5">
-                                <label for="confirmpassword"
-                                    class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
-                                <input type="password" name="confirmpassword" id="confirmpassword" autocomplete="off"
-                                    required
-                                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-                            </div>
-                            <div class="mb-5">
-                                <label for="vercode" class="block mb-2 text-sm font-medium text-gray-900">Verification
-                                    code</label>
-                                <img src="captcha.php" alt="CAPTCHA Image" class="rounded-md mb-2 inline-block">
-                                <input type="text" name="vercode" id="vercode" maxlength="5" autocomplete="off" required
-                                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-20 p-2" />
-                            </div>
-                            <button type="submit" name="signup"
-                                class="bg-primary hover:bg-secondary text-white focus:ring-4 focus:outline-none focus:bg-accent font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" href="index.php">Register
-                                Now</button>
-                        </form>
+            <div class="w-100 w-50-m w-30-l center pa4 bg-white br3 shadow-3">
+                <form name="signup" method="post" onSubmit="return valid();">
+                    <div class="mb3">
+                        <label for="fullanme" class="f6 b db mb2">Full Name</label>
+                        <input type="text" name="fullanme" id="fullanme" autocomplete="off" required
+                            class="input-reset ba b--black-20 pa2 mb2 db w-100" />
                     </div>
-                </div>
+
+                    <div class="mb3">
+                        <label for="mobileno" class="f6 b db mb2">Mobile Number</label>
+                        <input type="text" name="mobileno" id="mobileno" maxlength="10" autocomplete="off" required
+                            class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+                    </div>
+
+                    <div class="mb3">
+                        <label for="emailid" class="f6 b db mb2">Email</label>
+                        <input type="email" name="email" id="emailid" onBlur="checkAvailability()" autocomplete="off"
+                            required class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+                        <span id="user-availability-status" class="f6 mt2 red"></span>
+                    </div>
+
+                    <div class="mb3">
+                        <label for="password" class="f6 b db mb2">Password</label>
+                        <input type="password" name="password" id="password" autocomplete="off" required
+                            class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+                    </div>
+
+                    <div class="mb3">
+                        <label for="confirmpassword" class="f6 b db mb2">Confirm Password</label>
+                        <input type="password" name="confirmpassword" id="confirmpassword" autocomplete="off" required
+                            class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+                    </div>
+
+                    <div class="mb3">
+                        <label for="vercode" class="f6 b db mb2">Verification Code</label>
+                        <img src="captcha.php" alt="CAPTCHA Image" class="db mt2">
+                        <input type="text" name="vercode" id="vercode" maxlength="5" autocomplete="off" required
+                            class="input-reset ba b--black-20 pa2 mb2 db w-100" />
+                    </div>
+
+                    <button type="submit" name="signup"
+                        class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib">Register
+                        Now</button>
+                </form>
             </div>
         </div>
+    </div>
 
-    </div>
-    </div>
     <!-- CONTENT-WRAPPER SECTION END-->
     <?php include('includes/footer.php'); ?>
     <script src="assets/js/jquery-1.10.2.js"></script>

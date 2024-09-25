@@ -13,28 +13,6 @@ include('includes/config.php');
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#DB924B', // Primary color
-                        secondary: '#C27852', // Secondary color
-                        accent: '#A6692F', // Accent color
-                        neutral: '#1B1A17', // Neutral color for text and backgrounds
-                        'base-100': '#F7F3E3', // Base background color
-                        'base-200': '#EFE6D8', // Slightly darker than base-100
-                        'base-300': '#E1D3C3', // Slightly darker than base-200
-                        'base-content': '#1B1A17', // Default content color for base-100
-                        info: '#9AB8D5', // Info messages
-                        success: '#57B078', // Success messages
-                        warning: '#CB9442', // Warning messages
-                        error: '#D95C52', // Error messages
-                    },
-                }
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -43,8 +21,6 @@ include('includes/config.php');
     <nav class="bg-base-100 border-gray-200">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <!-- <img src="https://cdn.discordapp.com/attachments/809988356611112980/1270694522049003560/images.jpg?ex=66b4a1fe&is=66b3507e&hm=4e3f93b8451368986ffb942106592263de5c3fac21db124a0f59c144fd7b3b58&"
-                    class="h-8 rounded-full" alt="Logo" /> -->
                 <span class="self-center text-xl font-semibold whitespace-nowrap">Admin Perpustakaan</span>
             </a>
             <button data-collapse-toggle="navbar-dropdown" type="button"
@@ -150,9 +126,9 @@ include('includes/config.php');
                                 class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
                                     aria-labelledby="dropdownNavbarLinkIssueBooks">
-                                    <li><a href="issue-book.php"
+                                    <!-- <li><a href="issue-book.php"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Issue
-                                            New Book</a></li>
+                                            New Book</a></li> -->
                                     <li><a href="manage-issued-books.php"
                                             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Manage
                                             Issued Books</a></li>
