@@ -1,7 +1,8 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif; /* Apply 'Roboto' font to the body */
+    font-family: 'Roboto', sans-serif; 
     line-height: 28px;
 }
 
@@ -9,6 +10,13 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto Slab', serif; /* Apply 'Roboto Slab' font to headers */
     color: #1B1A17;
 }
+
+.josefin-sans {
+	font-family: "Josefin Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+}
+
 
 nav {
     font-family: 'Roboto Slab', serif;
@@ -56,4 +64,9 @@ FOOTER SECTION STYLES
 .footer-section a,
 .footer-section a:hover {
     color: #000;
+}
+
+.kartu {
+    display: flex;
+    gap: 4rem;
 }

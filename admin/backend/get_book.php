@@ -1,5 +1,5 @@
 <?php
-require_once ("includes/config.php");
+require_once ("..\includes\config.php");
 if (!empty($_POST["bookid"])) {
   $bookid = $_POST["bookid"];
 
@@ -19,7 +19,7 @@ if (!empty($_POST["bookid"])) {
     }
   } else { ?>
 
-    <option class="others"> Invalid ISBN Number</option>
+    <option > Invalid ISBN Number</option>
     <?php
     echo "<script>$('#submit').prop('disabled',true);</script>";
   }

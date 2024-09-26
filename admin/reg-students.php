@@ -45,34 +45,34 @@ if (strlen($_SESSION['alogin']) == 0) {
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.css" rel="stylesheet">
     </head>
 
-    <body class="flex flex-col min-h-screen">
+    <body >
 
         <!-- Include header -->
         <?php include ('includes/header.php'); ?>
 
         <!-- Main Content -->
-        <div class="content-wrapper flex-grow">
-            <div class="container mx-auto py-6">
-                <div class="mb-4">
-                    <h4 class="header-line">Manage Registered Students</h4>
+        <div >
+            <div >
+                <div >
+                    <h4 >Manage Registered Students</h4>
                 </div>
 
                 <!-- Registered Students Table -->
-                <div class="overflow-x-auto">
-                    <table id="students-table" class="min-w-full bg-white border border-gray-200">
-                        <thead class="bg-gray-50">
+                <div >
+                    <table id="students-table" >
+                        <thead >
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email ID</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobile Number</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reg Date</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                <th >#</th>
+                                <th >Student ID</th>
+                                <th >Student Name</th>
+                                <th >Email ID</th>
+                                <th >Mobile Number</th>
+                                <th >Reg Date</th>
+                                <th >Status</th>
+                                <th >Action</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody >
                             <?php
                             $sql = "SELECT * FROM tblstudents";
                             $query = $dbh->prepare($sql);
@@ -82,18 +82,18 @@ if (strlen($_SESSION['alogin']) == 0) {
                             if ($query->rowCount() > 0) {
                                 foreach ($results as $result) { ?>
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($cnt); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->StudentId); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->FullName); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->EmailId); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->MobileNumber); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->RegDate); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlentities($result->Status == 1 ? 'Active' : 'Blocked'); ?></td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td ><?php echo htmlentities($cnt); ?></td>
+                                        <td ><?php echo htmlentities($result->StudentId); ?></td>
+                                        <td ><?php echo htmlentities($result->FullName); ?></td>
+                                        <td ><?php echo htmlentities($result->EmailId); ?></td>
+                                        <td ><?php echo htmlentities($result->MobileNumber); ?></td>
+                                        <td ><?php echo htmlentities($result->RegDate); ?></td>
+                                        <td ><?php echo htmlentities($result->Status == 1 ? 'Active' : 'Blocked'); ?></td>
+                                        <td >
                                             <?php if ($result->Status == 1) { ?>
-                                                <a href="reg-students.php?inid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to block this student?');" class="text-red-600 hover:text-red-800">Block</a>
+                                                <a href="reg-students.php?inid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to block this student?');" >Block</a>
                                             <?php } else { ?>
-                                                <a href="reg-students.php?id=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to activate this student?');" class="text-green-600 hover:text-green-800">Activate</a>
+                                                <a href="reg-students.php?id=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to activate this student?');" >Activate</a>
                                             <?php } ?>
                                         </td>
                                     </tr>

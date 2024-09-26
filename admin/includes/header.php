@@ -10,187 +10,80 @@ include('includes/config.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perpustakaan</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tachyons@4.12.0/css/tachyons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/navbar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-near-white">
 
     <!-- Navbar -->
-    <nav class="bg-base-100 border-gray-200">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-xl font-semibold whitespace-nowrap">Admin Perpustakaan</span>
-            </a>
-            <button data-collapse-toggle="navbar-dropdown" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden bg-base-100 hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="navbar-dropdown" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
-            </button>
-            <div class="hidden w-full md:block md:w-auto bg-base-100" id="navbar-dropdown">
-                <ul
-                    class="flex flex-col font-medium p-4 md:p-0 mt-4 bg-base-100 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-base-100">
-                    <?php if ($_SESSION['alogin']) { ?>
-                        <li>
-                            <a href="dashboard.php"
-                                class="block py-2 px-3 bg-base-100 text-gray-900 rounded hover:bg-gray-100 md:border-0 md:hover:text-blue-700 md:p-0"
-                                aria-current="page">Dashboard</a>
-                        </li>
-                        <li>
-                            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbarCategories"
-                                class="flex items-center bg-base-100 justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:border-0 md:hover:text-blue-700 md:p-0">Categories
-                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
-                            <!-- Dropdown menu -->
-                            <div id="dropdownNavbarCategories"
-                                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                    aria-labelledby="dropdownNavbarLink">
-                                    <!-- <li><a href="add-category.php"
-                                            class="block px-4 py-2 hover:bg-gray-100">Add
-                                            Category</a></li> -->
-                                    <li><a href="manage-categories.php"
-                                            class="block px-4 py-2 hover:bg-gray-100">Manage
-                                            Categories</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button id="dropdownNavbarLinkAuthors" data-dropdown-toggle="dropdownNavbarAuthors"
-                                class="flex items-center justify-between w-full bg-base-100 py-2 px-3 text-gray-900 hover:bg-gray-100 md:border-0 md:p-0 md:w-auto">Authors
-                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
-                            <!-- Dropdown menu -->
-                            <div id="dropdownNavbarAuthors"
-                                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                    aria-labelledby="dropdownNavbarLinkAuthors">
-                                    <!-- <li><a href="add-author.php"
-                                            class="block px-4 py-2 hover:bg-gray-100 ">Add
-                                            Author</a></li> -->
-                                    <li><a href="manage-authors.php"
-                                            class="block px-4 py-2 hover:bg-gray-100">Manage
-                                            Authors</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button id="dropdownNavbarLinkBooks" data-dropdown-toggle="dropdownNavbarBooks"
-                                class="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Books
-                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
-                            <!-- Dropdown menu -->
-                            <div id="dropdownNavbarBooks"
-                                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                    aria-labelledby="dropdownNavbarLinkBooks">
-                                    <li><a href="add-book.php"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Add
-                                            Book</a></li>
-                                    <li><a href="manage-books.php"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Manage
-                                            Books</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <button id="dropdownNavbarLinkIssueBooks" data-dropdown-toggle="dropdownNavbarIssueBooks"
-                                class="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto">Issue
-                                Books
-                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
-                            <!-- Dropdown menu -->
-                            <div id="dropdownNavbarIssueBooks"
-                                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                    aria-labelledby="dropdownNavbarLinkIssueBooks">
-                                    <!-- <li><a href="issue-book.php"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Issue
-                                            New Book</a></li> -->
-                                    <li><a href="manage-issued-books.php"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Manage
-                                            Issued Books</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="reg-students.php"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Reg
-                                Students</a>
-                        </li>
+    <nav class="db dt-l w-100 border-box pa3 ph5-l">
+        <!-- Logo or Branding -->
+        <a href="#" class="db dtc-l v-mid mid-gray link dim w-100 w-25-l tc tl-l mb2 mb0-l" title="Home">
+            <img src="..\assets\img\logo.png" class="dib w3 h3 br-100" alt="Library Manager">
+        </a>
 
-                        <!-- Dropdown management -->
-                        <li>
-                            <button id="dropdownNavbarLinkManagement" data-dropdown-toggle="dropdownNavbarManagement"
-                                class="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto">Management
-                                <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
-                            <div id="dropdownNavbarManagement"
-                                class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownNavbarLinkManagement">
-                                    <li>
-                                        <a href="change-password.php"
-                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">Change
-                                            Password</a>
-                                    </li>
-                                    <li>
-                                        <a href="logout.php"
-                                            class="block px-4 py-2 hover:bg-red-100 hover:text-red-700 dark:hover:bg-gray-600">LOG
-                                            ME OUT</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    <?php } else { ?>
-                        <li>
-                            <a href="adminlogin.php"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white">Admin
-                                Login</a>
-                        </li>
-                        <li>
-                            <a href="signup.php"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">User
-                                Signup</a>
-                        </li>
-                        <li>
-                            <a href="index.php"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">User
-                                Login</a>
-                        </li>
-                    <?php } ?>
-                </ul>
-            </div>
+        <!-- Navigation Links -->
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+            <?php if ($_SESSION['alogin']) { ?>
+                <a href="dashboard.php" class="link dim dark-gray f6 f5-l dib mr3 mr4-l">Dashboard</a>
+
+                <div class="dib mr3 mr4-l">
+                    <a href="#" class="link dim dark-gray f6 f5-l" onclick="toggleDropdown('categoriesDropdown')">Categories</a>
+                    <ul id="categoriesDropdown" class="absolute bg-white list pa2 dn shadow-1">
+                        <li><a href="manage-categories.php" class="black no-underline db pv1 f6 lh-copy">Manage Categories</a></li>
+                    </ul>
+                </div>
+
+                <div class="dib mr3 mr4-l">
+                    <a href="#" class="link dim dark-gray f6 f5-l" onclick="toggleDropdown('authorsDropdown')">Authors</a>
+                    <ul id="authorsDropdown" class="absolute bg-white list pa2 dn shadow-1">
+                        <li><a href="manage-authors.php" class="black no-underline db pv1 f6 lh-copy">Manage Authors</a></li>
+                    </ul>
+                </div>
+
+                <div class="dib mr3 mr4-l">
+                    <a href="#" class="link dim dark-gray f6 f5-l" onclick="toggleDropdown('booksDropdown')">Books</a>
+                    <ul id="booksDropdown" class="absolute bg-white list pa2 dn shadow-1">
+                        <li><a href="manage-books.php" class="black no-underline db pv1 f6 lh-copy">Manage Books</a></li>
+                    </ul>
+                </div>
+
+                <div class="dib mr3 mr4-l">
+                    <a href="#" class="link dim dark-gray f6 f5-l" onclick="toggleDropdown('issueBooksDropdown')">Issue Books</a>
+                    <ul id="issueBooksDropdown" class="absolute bg-white list pa2 dn shadow-1">
+                        <li><a href="manage-issued-books.php" class="black no-underline db pv1 f6 lh-copy">Manage Issued Books</a></li>
+                    </ul>
+                </div>
+
+                <a href="reg-students.php" class="link dim dark-gray f6 f5-l dib mr3 mr4-l">Reg Students</a>
+
+                <div class="dib">
+                    <a href="#" class="link dim dark-gray f6 f5-l" onclick="toggleDropdown('managementDropdown')">Management</a>
+                    <ul id="managementDropdown" class="absolute bg-white list pa2 dn shadow-1">
+                        <li><a href="change-password.php" class="black no-underline db pv1 f6 lh-copy">Change Password</a></li>
+                        <li><a href="logout.php" class="black no-underline db pv1 f6 lh-copy">LOG ME OUT</a></li>
+                    </ul>
+                </div>
+            <?php } else { ?>
+                <a href="adminlogin.php" class="link dim dark-gray f6 f5-l dib mr3 mr4-l">Admin Login</a>
+                <a href="signup.php" class="link dim dark-gray f6 f5-l dib mr3 mr4-l">User Signup</a>
+                <a href="index.php" class="link dim dark-gray f6 f5-l dib mr3 mr4-l">User Login</a>
+            <?php } ?>
         </div>
     </nav>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
+    <script>
+        // Toggle dropdown visibility for each section
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('dn');
+        }
+    </script>
+
 </body>
 
 </html>

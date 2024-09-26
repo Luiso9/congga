@@ -1,12 +1,12 @@
 <?php
 session_start();
 error_reporting(0);
-include ('includes/config.php');
+include ('..\includes\config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
 
-    if (isset($_POST['update'])) {
+    if (isset($_POST['update']) ) {
         $athrid = intval($_GET['athrid']);
         $author = $_POST['author'];
         $sql = "update  tblauthors set AuthorName=:author where id=:athrid";
@@ -44,27 +44,27 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     <body>
         <!------MENU SECTION START-->
-        <?php include ('includes/header.php'); ?>
+        <?php include ('..\includes\header.php'); ?>
         <!-- MENU SECTION END-->
         <div class="content-wra
-    <div class=" content-wrapper">
-            <div class="container">
-                <div class="row pad-botm">
-                    <div class="col-md-12">
-                        <h4 class="header-line">Add Author</h4>
+    <div >
+            <div >
+                <div >
+                    <div >
+                        <h4 >Add Author</h4>
 
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"">
-<div class=" panel panel-info">
-                        <div class="panel-heading">
+                <div >
+                    <div ">
+<div >
+                        <div >
                             Author Info
                         </div>
-                        <div class="panel-body">
+                        <div >
                             <form role="form" method="post">
-                                <div class="form-group">
+                                <div >
                                     <label>Author Name</label>
                                     <?php
                                     $athrid = intval($_GET['athrid']);
@@ -76,13 +76,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     $cnt = 1;
                                     if ($query->rowCount() > 0) {
                                         foreach ($results as $result) { ?>
-                                            <input class="form-control" type="text" name="author"
+                                            <input  type="text" name="author"
                                                 value="<?php echo htmlentities($result->AuthorName); ?>" required />
                                         <?php }
                                     } ?>
                                 </div>
 
-                                <button type="submit" name="update" class="btn btn-info">Update </button>
+                                <button type="submit" name="update" >Update </button>
 
                             </form>
                         </div>

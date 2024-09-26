@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include ('includes/config.php');
+include ('..\includes\config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
@@ -45,26 +45,26 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     <body>
         <!------MENU SECTION START-->
-        <?php include ('includes/header.php'); ?>
+        <?php include ('..\includes\header.php'); ?>
         <!-- MENU SECTION END-->
         <div class="content-wra
-    <div class=" content-wrapper">
-            <div class="container">
-                <div class="row pad-botm">
-                    <div class="col-md-12">
-                        <h4 class="header-line">Edit category</h4>
+    <div >
+            <div >
+                <div >
+                    <div >
+                        <h4 >Edit category</h4>
 
                     </div>
 
                 </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"">
-<div class=" panel panel-info">
-                        <div class="panel-heading">
+                <div >
+                    <div ">
+<div >
+                        <div >
                             Category Info
                         </div>
 
-                        <div class="panel-body">
+                        <div >
                             <form role="form" method="post">
                                 <?php
                                 $catid = intval($_GET['catid']);
@@ -76,39 +76,39 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 if ($query->rowCount() > 0) {
                                     foreach ($results as $result) {
                                         ?>
-                                        <div class="form-group">
+                                        <div >
                                             <label>Category Name</label>
                                             <input type="text" name="category" id="category"
                                                 value="<?php echo htmlentities($result->CategoryName); ?>" required />
                                         </div>
-                                        <div class="form-group">
+                                        <div >
                                             <label>Status</label>
                                             <?php if ($result->Status == 1) { ?>
-                                                <div class="radio">
+                                                <div >
                                                     <label>
                                                         <input type="radio" name="status" id="status" value="1" checked="checked">Active
                                                     </label>
                                                 </div>
-                                                <div class="radio">
+                                                <div >
                                                     <label>
                                                         <input type="radio" name="status" id="status" value="0">Inactive
                                                     </label>
                                                 </div>
                                             <?php } else { ?>
-                                                <div class="radio">
+                                                <div >
                                                     <label>
                                                         <input type="radio" name="status" id="status" value="0"
                                                             checked="checked">Inactive
                                                     </label>
                                                 </div>
-                                                <div class="radio">
+                                                <div >
                                                     <label>
                                                         <input type="radio" name="status" id="status" value="1">Active
                                                     </label>
                                                 </div <?php } ?> </div>
                                         <?php }
                                 } ?>
-                                    <button type="submit" name="update" class="btn btn-info">Update </button>
+                                    <button type="submit" name="update" >Update </button>
 
                             </form>
                         </div>

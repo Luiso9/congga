@@ -5,19 +5,6 @@ include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
     header('location:index.php');
 } else { ?>
-
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Perpustakaan</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.12.0/tachyons.min.css" />
-        <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
-    </head>
-
     <body class="bg-near-white black-80 sans-serif">
 
         <!--Nav-->

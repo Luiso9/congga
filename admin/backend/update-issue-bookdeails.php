@@ -1,10 +1,10 @@
 <?php
 session_start();
 error_reporting(0);
-include ('includes/config.php');
+include ('..\includes\config.php');
 
 if (strlen($_SESSION['alogin']) == 0) {
-    header('location:index.php');
+    header('location:admin\index.php');
 } else {
     if (isset($_POST['return'])) {
         $rid = intval($_GET['rid']);
@@ -22,7 +22,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         $query->execute();
 
         $_SESSION['msg'] = "Book Returned successfully";
-        header('location:manage-issued-books.php');
+        header('location:../manage-issued-books.php');
         exit;
     }
     ?>
@@ -37,26 +37,26 @@ if (strlen($_SESSION['alogin']) == 0) {
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.0/dist/flowbite.js"></script>
-        <link href="assets/css/font-awesome.css" rel="stylesheet" />
-        <link href="assets/css/style.css" rel="stylesheet" />
+        <link href="../assets/css/font-awesome.css" rel="stylesheet" />
+        <link href="../assets/css/style.css" rel="stylesheet" />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     </head>
     <body>
-        <?php include ('includes/header.php'); ?>
-        <div class="content-wrapper">
-            <div class="container">
-                <div class="row pad-botm">
-                    <div class="col-md-12">
-                        <h4 class="header-line">Issued Book Details</h4>
+        <?php include ('..\includes\header.php'); ?>
+        <div >
+            <div >
+                <div >
+                    <div >
+                        <h4 >Issued Book Details</h4>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-10 col-sm-6 col-xs-12 col-md-offset-1">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
+                <div >
+                    <div >
+                        <div >
+                            <div >
                                 Issued Book Details
                             </div>
-                            <div class="panel-body">
+                            <div >
                                 <form role="form" method="post">
                                     <?php
                                     $rid = intval($_GET['rid']);
@@ -68,29 +68,28 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     
                                     if ($query->rowCount() > 0) {
                                         foreach ($results as $result) { ?>
-                                            <div class="form-group">
+                                            <div >
                                                 <label>Student Name :</label>
                                                 <?php echo htmlentities($result->FullName); ?>
                                             </div>
-                                            <div class="form-group">
+                                            <div >
                                                 <label>Book Name :</label>
                                                 <?php echo htmlentities($result->BookName); ?>
                                             </div>
-                                            <div class="form-group">
+                                            <div >
                                                 <label>ISBN :</label>
                                                 <?php echo htmlentities($result->ISBNNumber); ?>
                                             </div>
-                                            <div class="form-group">
+                                            <div >
                                                 <label>Book Issued Date :</label>
                                                 <?php echo htmlentities($result->IssuesDate); ?>
                                             </div>
-                                            <div class="form-group">
+                                            <div >
                                                 <label>Book Returned Date :</label>
                                                 <?php 
                                                 if ($result->ActualReturnDate) {
                                                     $actualReturnDate = new DateTime($result->ActualReturnDate);
                                                     $returnDate = new DateTime($result->ReturnDate);
-                                                    // Check if the book was returned within the 14-day period
                                                     if ($actualReturnDate <= $returnDate) {
                                                         echo "Returned";
                                                     } else {
@@ -99,15 +98,15 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 } else {
                                                     echo "Not Returned Yet"; ?>
                                                     <input type="hidden" name="rid" value="<?php echo htmlentities($result->rid); ?>">
-                                                    <button type="submit" name="return" class="btn btn-info">Mark as Returned</button>
+                                                    <button type="submit" name="return" >Mark as Returned</button>
                                                 <?php }
                                                 ?>
                                             </div>
-                                            <div class="form-group">
+                                            <div >
                                                 <label>Fine (in USD) :</label>
                                                 <?php
                                                 if ($result->fine == "") { ?>
-                                                    <input class="form-control" type="text" name="fine" id="fine" required />
+                                                    <input  type="text" name="fine" id="fine" required />
                                                 <?php } else {
                                                     echo htmlentities($result->fine);
                                                 }
@@ -122,7 +121,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 </div>
             </div>
         </div>
-        <?php include ('includes/footer.php'); ?>
+        <?php include ('../includes/footer.php'); ?>
         <script src="assets/js/jquery-1.10.2.js"></script>
         <script src="assets/js/bootstrap.js"></script>
         <script src="assets/js/custom.js"></script>

@@ -1,0 +1,27 @@
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.dn {
+    display: none;
+}
+
+/* Style for error and success messages */
+.bg-green {
+    background-color: #
