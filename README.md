@@ -34,3 +34,8 @@ Credentials
 `admin@example.com:adminpassword`
 
 
+
+## Screenshots
+
+![App Screenshot](https://files.catbox.moe/r5d6x0.png)
+
