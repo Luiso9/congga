@@ -46,13 +46,6 @@ if (strlen($_SESSION['alogin']) == 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrasi Perpustakaan</title>
-
-    <!-- Tachyons for styling -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.12.0/tachyons.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="assets/css/navbar.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body class="bg-light-gray flex flex-column min-vh-100">
@@ -65,30 +58,11 @@ if (strlen($_SESSION['alogin']) == 0) {
         <button id="addCategoryBtn" class="f6 link dim br2 ph3 pv2 mb4 dib white bg-dark-blue josefin-sans">Add Category</button>
 
         <!-- Displaying Messages -->
-        <div class="mb-4">
-            <?php if ($_SESSION["error"] != "") { ?>
-                <div class="bg-washed-red pa3 mv3">
-                    <strong>Error :</strong> <?php echo htmlentities($_SESSION["error"]); ?>
-                    <?php $_SESSION["error"] = ""; ?>
-                </div>
-            <?php } ?>
-            <?php if ($_SESSION["msg"] != "") { ?>
-                <div class="bg-washed-green pa3 mv3">
-                    <strong>Success :</strong> <?php echo htmlentities($_SESSION["msg"]); ?>
-                    <?php $_SESSION["msg"] = ""; ?>
-                </div>
-            <?php } ?>
-            <?php if ($_SESSION["delmsg"] != "") { ?>
-                <div class="bg-light-yellow pa3 mv3">
-                    <strong>Success :</strong> <?php echo htmlentities($_SESSION["delmsg"]); ?>
-                    <?php $_SESSION["delmsg"] = ""; ?>
-                </div>
-            <?php } ?>
-        </div>
+        <?php include('includes/error.php'); ?>
 
         <!-- Categories Table -->
-        <div class="overflow-auto">
-            <table id="categoryTable" class="f6 w-100 mw8 center ba b--black-10 bg-white shadow-4 ma4">
+        <div class="pa2">
+            <table id="kategori" class="f6 w-100 mw8 center ba b--black-10 bg-white shadow-4 ma4">
                 <thead>
                     <tr class="bg-light-gray">
                         <th class="fw6 tl pb3 pr3">#</th>
@@ -164,15 +138,11 @@ if (strlen($_SESSION['alogin']) == 0) {
     <?php include('includes/footer.php'); ?>
 
     <script>
-        $(document).ready(function() {
-            $('#categoryTable').DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                responsive: true
-            });
+        initializeDataTable('#kategori');
+    </script>
 
+    <script>
+        $(document).ready(function() {
             const addCategoryBtn = document.getElementById("addCategoryBtn");
             const categoryModal = document.getElementById("categoryModal");
             const closeModalBtn = document.getElementById("closeModalBtn");

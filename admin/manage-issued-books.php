@@ -16,12 +16,6 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Administrasi Perpustakaan</title>
-
-        <!-- Tachyons for styling -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.12.0/tachyons.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/simple-datatables.js"></script>
     </head>
 
     <body class="bg-light-gray flex flex-column min-vh-100">
@@ -34,30 +28,11 @@ if (strlen($_SESSION['alogin']) == 0) {
             <h2 class="f2 lh-title tc josefin-sans">Manage Issued Books</h2>
 
             <!-- Displaying Messages -->
-            <div class="mb4">
-                <?php if ($_SESSION['error'] != "") { ?>
-                    <div class="bg-washed-red pa3 mv3">
-                        <strong>Error :</strong> <?php echo htmlentities($_SESSION['error']); ?>
-                        <?php $_SESSION['error'] = ""; ?>
-                    </div>
-                <?php } ?>
-                <?php if ($_SESSION['msg'] != "") { ?>
-                    <div class="bg-washed-green pa3 mv3">
-                        <strong>Success :</strong> <?php echo htmlentities($_SESSION['msg']); ?>
-                        <?php $_SESSION['msg'] = ""; ?>
-                    </div>
-                <?php } ?>
-                <?php if ($_SESSION['delmsg'] != "") { ?>
-                    <div class="bg-light-yellow pa3 mv3">
-                        <strong>Success :</strong> <?php echo htmlentities($_SESSION['delmsg']); ?>
-                        <?php $_SESSION['delmsg'] = ""; ?>
-                    </div>
-                <?php } ?>
-            </div>
+            <?php include('includes/error.php'); ?>
 
             <!-- Issued Books Table -->
-            <div class="overflow-auto">
-                <table id="issued-books-table" class="f6 w-100 mw8 center ba b--black-10 bg-white shadow-4">
+            <div class="pa2">
+                <table id="data-table" class="f6 w-100 mw8 center ba b--black-10 bg-white shadow-4 ma4">
                     <thead>
                         <tr class="bg-light-gray">
                             <th class="fw6 tl pb3 pr3">#</th>
@@ -83,7 +58,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                         $cnt = 1;
                         if ($query->rowCount() > 0) {
                             foreach ($results as $result) { ?>
-                                <tr class="stripe-dark">
+                                <tr class="hover-bg-lightest-blue">
                                     <td class="pv3 pr3"><?php echo htmlentities($cnt); ?></td>
                                     <td class="pv3 pr3"><?php echo htmlentities($result->FullName); ?></td>
                                     <td class="pv3 pr3"><?php echo htmlentities($result->BookName); ?></td>
@@ -152,7 +127,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         </form>
                                     </td>
                                 </tr>
-                        <?php $cnt++;
+                            <?php $cnt++;
                             }
                         } else { ?>
                             <tr>
@@ -164,26 +139,15 @@ if (strlen($_SESSION['alogin']) == 0) {
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Include footer -->
         <?php include('includes/footer.php'); ?>
 
+        <!-- DataTable Initialization Script -->
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Initialize DataTables for Issued Books
-                const issuedBooksTable = new simpleDatatables.DataTable("#issued-books-table", {
-                    searchable: true,
-                    fixedHeight: true,
-                });
-
-                // Initialize DataTables for Borrow Requests
-                const borrowRequestsTable = new simpleDatatables.DataTable("#borrow-requests-table", {
-                    searchable: true,
-                    fixedHeight: true,
-                });
-            });
+            initializeDataTable('#data-table');
         </script>
-
     </body>
 
     </html>
+
 <?php } ?>

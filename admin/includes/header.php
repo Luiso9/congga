@@ -15,6 +15,16 @@ include('includes/config.php');
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <!-- DataTables and Semantic UI styling -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.semanticui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="assets/css/table.css">
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.semanticui.min.js"></script>
 </head>
 
 <body class="bg-near-white">
@@ -83,7 +93,8 @@ include('includes/config.php');
             dropdown.classList.toggle('dn');
         }
     </script>
-
+    <!-- DataTable -->
+    <script src="assets/js/dataTable.js"></script>
 </body>
 
 </html>
