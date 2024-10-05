@@ -54,7 +54,7 @@ if (strlen($_SESSION['login']) == 0) {
                         <div class="col">
                             <div class="db center shadow-4 mt3 w400px" style="width: 400px;">
                                 <!-- Lazy loading image -->
-                                <img src="admin/<?php echo htmlspecialchars($book['BookCover']); ?>"
+                                <img src="<?php echo htmlspecialchars($book['BookCover']); ?>"
                                     alt="Cover of <?php echo htmlspecialchars($book['BookName']); ?>" loading="lazy" style="width: 100%; columns: 300px; height: auto; object-fit: cover;">
 
                                 <!-- Book Details -->
