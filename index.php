@@ -6,6 +6,9 @@ include('includes/config.php');
 require_once('controller/loginHandler.php');
 ?>
 
+<link href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" rel="stylesheet" />
+<link href="./assets/css/style.css" rel="stylesheet" />
+
 <body class="bg-light-gray">
   <div class="content-wrapper">
     <div class="container center">
@@ -49,4 +52,5 @@ require_once('controller/loginHandler.php');
   <!-- CONTENT-WRAPPER SECTION END -->
   <?php include('includes/footer.php'); ?>
 </body>
+
 </html>
