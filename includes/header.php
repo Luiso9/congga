@@ -7,21 +7,48 @@ include('includes/config.php');
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perpustakaan</title>
-    <link href="https://cdn.jsdelivr.net/npm/tachyons@4.12.0/css/tachyons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/navbar.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- Descriptive title for SEO -->
+    <title>Perpustakaan - A Comprehensive Digital Library for Students and Researchers</title>
+
+    <!-- Meta description with targeted keywords -->
+    <meta name="description" content="Perpustakaan: Access thousands of books, journals, and academic resources online. Explore our digital library tailored for students, researchers, and educators." />
+
+    <!-- Keywords for SEO -->
+    <meta name="keywords" content="Perpustakaan, digital library, academic resources, books, journals, student library, research" />
+
+    <!-- Author -->
+    <meta name="author" content="barangtemuan.my.id" />
+
+    <!-- Open Graph meta tags for social media integration (Facebook, LinkedIn, etc.) -->
+    <meta property="og:title" content="Perpustakaan - A Comprehensive Digital Library" />
+    <meta property="og:description" content="Explore thousands of digital resources tailored for students and researchers." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.yourwebsite.com" />
+    <meta property="og:image" content="https://www.yourwebsite.com/assets/images/library-cover.jpg" />
+
+    <!-- Twitter card for better Twitter link previews -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Perpustakaan - A Comprehensive Digital Library" />
+    <meta name="twitter:description" content="Access thousands of books, journals, and academic resources online." />
+    <meta name="twitter:image" content="https://www.yourwebsite.com/assets/images/library-cover.jpg" />
+
+    <!-- Link to favicon for better branding -->
+    <link rel="icon" href="./assets/img/ico/favicon.ico" type="image/x-icon" />
+
+    <!-- CSS links -->
+    <link href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.semanticui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="assets/css/table.css">
+    <link href="./assets/css/style.css" rel="stylesheet" />
+    <link href="./assets/css/navbar.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <link data-optimized="2" rel="stylesheet" href="https://smkn3jogja.sch.id/wp-content/litespeed/css/6a8ee37791889cdd1827c84f26372544.css?ver=c5bfd">
-
-    <!-- DataTables and Semantic UI styling -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.semanticui.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
-    <link rel="stylesheet" href="assets/css/table.css">
 
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
