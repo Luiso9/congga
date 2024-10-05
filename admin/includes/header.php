@@ -31,12 +31,10 @@ include('includes/config.php');
 
     <!-- Navbar -->
     <nav class="db dt-l w-100 border-box pa3 ph5-l">
-        <!-- Logo or Branding -->
         <a href="#" class="db dtc-l v-mid mid-gray link dim w-100 w-25-l tc tl-l mb2 mb0-l" title="Home">
             <img src="..\assets\img\logo.png" class="dib w3 h3 br-100" alt="Library Manager">
         </a>
 
-        <!-- Navigation Links -->
         <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
             <?php if ($_SESSION['alogin']) { ?>
                 <a href="dashboard.php" class="link dim dark-gray f6 f5-l dib mr3 mr4-l">Dashboard</a>

@@ -13,7 +13,7 @@ if (strlen($_SESSION['login']) == 0) {
         $query = $dbh->prepare($sql);
         $query->bindParam(':id', $id, PDO::PARAM_STR);
         $query->execute();
-        $_SESSION['delmsg'] = "Book deleted successfully."; // Set success message
+        $_SESSION['delmsg'] = "Book deleted successfully.";
         header('location:manage-books.php');
         exit;
     }
@@ -27,57 +27,65 @@ if (strlen($_SESSION['login']) == 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Perpustakaan</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.12.0/css/tachyons.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables Bootstrap 5 CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <!-- jQuery (required by DataTables) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Bootstrap 5 JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
 </head>
 
 <body class="bg-white flex flex-column min-vh-100">
     <?php include('includes/header.php'); ?>
 
-    <div class="flex-grow-1 pa4">
-        <h2 class="f2 lh-title tc black">Data Buku</h2>
+    <div class="container mt-4">
+        <h2 class="text-center">Data Buku</h2>
 
         <div class="mb-4">
             <?php if (isset($_SESSION['success']) && $_SESSION['success'] != "") { ?>
-                <div class="alert alert-success bg-green-200 text-green-700 p-4 rounded">
+                <div class="alert alert-success">
                     <strong>Success:</strong> <?php echo htmlentities($_SESSION['success']); ?>
-                    <?php $_SESSION['success'] = ""; // Clear message after displaying 
-                    ?>
+                    <?php $_SESSION['success'] = ""; ?>
                 </div>
             <?php } ?>
 
             <?php if (isset($_SESSION['error']) && $_SESSION['error'] != "") { ?>
-                <div class="alert alert-danger bg-red-200 text-red-700 p-4 rounded">
+                <div class="alert alert-danger">
                     <strong>Error:</strong> <?php echo htmlentities($_SESSION['error']); ?>
-                    <?php $_SESSION['error'] = ""; // Clear message after displaying 
-                    ?>
+                    <?php $_SESSION['error'] = ""; ?>
                 </div>
             <?php } ?>
         </div>
 
-
-        <div class="overflow-auto">
-            <table id="booksTable" class="f6 w-100 mw8 center ba b--black-10 bg-white shadow-4">
+        <div class="table-responsive">
+            <table id="bukuDipinjam" class="table table-striped table-bordered">
                 <thead>
-                    <tr class="bg-light-gray">
-                        <th class="fw6 tl pb3 pr3">#</th>
-                        <th class="fw6 tl pb3 pr3">Judul Buku</th>
-                        <th class="fw6 tl pb3 pr3">ID Buku</th>
-                        <th class="fw6 tl pb3 pr3">Dipinjam</th>
-                        <th class="fw6 tl pb3 pr3">Status Pengembalian</th>
-                        <th class="fw6 tl pb3 pr3">Denda</th>
+                    <tr>
+                        <th>#</th>
+                        <th>Judul Buku</th>
+                        <th>ID Buku</th>
+                        <th>Dipinjam</th>
+                        <th>Status Pengembalian</th>
+                        <th>Denda</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sid = $_SESSION['stdid']; // Assuming student ID is stored in session
-                    $sql = "SELECT tblbooks.BookName, tblbooks.ISBNNumber, tblissuedbookdetails.IssuesDate, tblissuedbookdetails.ReturnDate, tblissuedbookdetails.id as rid, tblissuedbookdetails.fine 
-                            FROM tblissuedbookdetails 
-                            JOIN tblstudents ON tblstudents.StudentId = tblissuedbookdetails.StudentId 
-                            JOIN tblbooks ON tblbooks.id = tblissuedbookdetails.BookId 
-                            WHERE tblstudents.StudentId = :sid 
-                            ORDER BY tblissuedbookdetails.id DESC";
+                    $sid = $_SESSION['stdid'];
+                    $sql = "SELECT tblbooks.BookName, tblbooks.ISBNNumber, tblissuedbookdetails.IssuesDate, tblissuedbookdetails.ReturnDate, tblissuedbookdetails.ActualReturnDate, tblissuedbookdetails.id as rid, tblissuedbookdetails.fine 
+    FROM tblissuedbookdetails 
+    JOIN tblstudents ON tblstudents.StudentId = tblissuedbookdetails.StudentId 
+    JOIN tblbooks ON tblbooks.id = tblissuedbookdetails.BookId 
+    WHERE tblstudents.StudentId = :sid 
+    ORDER BY tblissuedbookdetails.id DESC";
                     $query = $dbh->prepare($sql);
                     $query->bindParam(':sid', $sid, PDO::PARAM_STR);
                     $query->execute();
@@ -87,40 +95,75 @@ if (strlen($_SESSION['login']) == 0) {
                         $cnt = 1;
                         foreach ($results as $result) {
                     ?>
-                            <tr class="hover-bg-lightest-blue">
-                                <td class="pv3 pr3"><?php echo htmlentities($cnt); ?></td>
-                                <td class="pv3 pr3"><?php echo htmlentities($result->BookName); ?></td>
-                                <td class="pv3 pr3"><?php echo htmlentities($result->ISBNNumber); ?></td>
-                                <td class="pv3 pr3"><?php echo htmlentities($result->IssuesDate); ?></td>
-                                <td class="pv3 pr3"><?php echo $result->ReturnDate == "" ? "<span class='red'>Belum</span>" : "<span class='green'>Sudah</span>"; ?></td>
-                                <td class="pv3 pr3"><?php echo htmlentities($result->fine); ?></td>
+                            <tr>
+                                <td><?php echo htmlentities($cnt); ?></td>
+                                <td><?php echo htmlentities($result->BookName); ?></td>
+                                <td><?php echo htmlentities($result->ISBNNumber); ?></td>
+                                <td><?php echo htmlentities($result->IssuesDate); ?></td>
+                                <td>
+                                    <?php
+                                    if ($result->ActualReturnDate) {
+                                        $actualReturnDate = new DateTime($result->ActualReturnDate);
+                                        $returnDate = new DateTime($result->ReturnDate);
+                                        if ($actualReturnDate <= $returnDate) {
+                                            echo "<span class='text-success'>Returned</span>";
+                                        } else {
+                                            echo "<span class='text-danger'>Overdue</span>";
+                                        }
+                                    } else {
+                                        echo "<span class='text-warning'>Not Returned Yet</span>";
+                                    }
+                                    ?>
+                                </td>
+                                <td><?php echo htmlentities($result->fine); ?></td>
                             </tr>
                         <?php
                             $cnt++;
                         }
                     } else { ?>
-                        <tr>
-                            <td colspan="6" class="tc pv4">Tidak ada history buku yang telah dipinjam.</td>
-                        </tr>
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong>Info!</strong> Tidak ada history buku yang dipinjam.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     <?php } ?>
+
                 </tbody>
             </table>
         </div>
     </div>
 
-    <?php include('includes/footer.php'); ?>
 
+    <!-- DataTables Initialization -->
     <script>
         $(document).ready(function() {
-            $('#booksTable').DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                responsive: true // Make DataTable responsive
+            $('#bukuDipinjam').DataTable({
+                responsive: true,
+                pagingType: "simple",
+                language: {
+                    search: "Cari:",
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    paginate: {
+                        first: "Pertama",
+                        last: "Terakhir",
+                        next: "Berikutnya",
+                        previous: "Sebelumnya"
+                    }
+                },
+                // Use Bootstrap 5 classes for pagination controls
+                "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                "order": [
+                    [0, "desc"]
+                ] // Optional: order by the first column (ID) descending
             });
         });
     </script>
+
+
+
+    <?php include('includes/footer.php'); ?>
 </body>
 
 </html>

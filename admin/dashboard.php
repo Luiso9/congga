@@ -44,7 +44,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                         $query = $dbh->prepare($sql);
                         $query->execute();
                         $stats = $query->fetch(PDO::FETCH_OBJ);
-                        ?>
+                    ?>
 
                         <article class="ph3 ph5-ns">
                             <h2 class="f3 fw4 pa3 mv0">Library Stats</h2>
@@ -146,14 +146,65 @@ if (strlen($_SESSION['alogin']) == 0) {
                     } ?>
                 </section>
 
-                <!-- Start recent users -->
-                <section>
-                    <h4 class="f4 fw6 mb3 tc">Murid yang baru saja meminjam buku</h4>
-                    <div class="flex flex-wrap justify-between w-100 ma4">
-                        <?php
-                        try {
-                            $sql =
-                                "SELECT ib.IssuesDate, s.FullName, b.BookName, c.CategoryName, a.AuthorName, b.BookCover 
+                <section class="flex-grow-1 pa4">
+                    <?php include('includes/error.php'); ?>
+
+                    <!-- Borrow Requests Section -->
+                    <h2 class="f3 fw4 pa3 mv0">Pending Request</h2>
+                    <div class="overflow-auto w-100">
+                        <table id="borrow-requests-table" class="f6 w-100 mw8 center ba b--black-10 bg-white shadow-4">
+                            <thead>
+                                <tr class="bg-light-gray">
+                                    <th class="fw6 tl pb3 pr3">#</th>
+                                    <th class="fw6 tl pb3 pr3">NIS Siswa</th>
+                                    <th class="fw6 tl pb3 pr3">Nomor Buku</th>
+                                    <th class="fw6 tl pb3 pr3">Tanggal Pengajuan</th>
+                                    <th class="fw6 tl pb3 pr3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sql = "SELECT UserId, ISBN, RequestDate FROM tblborrow_requests ORDER BY RequestDate DESC";
+                                $query = $dbh->prepare($sql);
+                                $query->execute();
+                                $requests = $query->fetchAll(PDO::FETCH_OBJ);
+                                $cnt = 1;
+                                if ($query->rowCount() > 0) {
+                                    foreach ($requests as $request) { ?>
+                                        <tr class="stripe-dark">
+                                            <td class="pv3 pr3 tc"><?php echo htmlentities($cnt); ?></td>
+                                            <td class="pv3 pr3 tc"><?php echo htmlentities($request->UserId); ?></td>
+                                            <td class="pv3 pr3 tc"><?php echo htmlentities($request->ISBN); ?></td>
+                                            <td class="pv3 pr3 tc"><?php echo htmlentities($request->RequestDate); ?></td>
+                                            <td class="pv3 pr3 tc">
+                                                <form action="backend/process_confirm_borrow.php" method="POST">
+                                                    <input type="hidden" name="isbn" value="<?php echo htmlentities($request->ISBN); ?>">
+                                                    <input type="hidden" name="userid" value="<?php echo htmlentities($request->UserId); ?>">
+                                                    <button type="submit" class="ml3 f6 link dim br2 ph3 pv2 mb2 dib white bg-dark-green">Confirm</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <?php $cnt++;
+                                    }
+                                } else { ?>
+                                    <tr>
+                                        <td colspan="5" class="tc pv4">No pending requests</td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            </section>
+
+            <!-- Start recent users -->
+            <section class="mt5">
+                <h4 class="f3 fw4 pa3 mv0 tc">Murid yang baru saja meminjam buku</h4>
+                <div class="flex flex-wrap justify-between w-100 ma4">
+                    <?php
+                    try {
+                        $sql =
+                            "SELECT ib.IssuesDate, s.FullName, b.BookName, c.CategoryName, a.AuthorName, b.BookCover 
             FROM tblissuedbookdetails ib 
             JOIN tblbooks b ON ib.BookId = b.id 
             JOIN tblcategory c ON b.CatId = c.id 
@@ -161,41 +212,41 @@ if (strlen($_SESSION['alogin']) == 0) {
             JOIN tblstudents s ON ib.StudentId = s.StudentId 
             ORDER BY ib.id DESC 
             LIMIT 3";
-                            $query = $dbh->prepare($sql);
-                            $query->execute();
-                            $results = $query->fetchAll(PDO::FETCH_OBJ);
-                            if ($query->rowCount() > 0) {
-                                foreach ($results as $result) { ?>
-                                    <a class="db center mw5 tc black link dim ma3"
-                                        title="<?php echo htmlentities($result->FullName); ?> borrowed <?php echo htmlentities($result->BookName); ?>"
-                                        href="#">
+                        $query = $dbh->prepare($sql);
+                        $query->execute();
+                        $results = $query->fetchAll(PDO::FETCH_OBJ);
+                        if ($query->rowCount() > 0) {
+                            foreach ($results as $result) { ?>
+                                <a class="db center mw5 tc black link dim ma3"
+                                    title="<?php echo htmlentities($result->FullName); ?> borrowed <?php echo htmlentities($result->BookName); ?>"
+                                    href="#">
 
-                                        <img class="db ba b--black-10 br3" alt="<?php echo htmlentities($result->BookName); ?> cover"
-                                            src="<?php echo htmlentities($result->BookCover); ?>"
-                                            style="max-height: 700px; object-fit: cover;">
+                                    <img class="db ba b--black-10 br3" alt="<?php echo htmlentities($result->BookName); ?> cover"
+                                        src="<?php echo htmlentities($result->BookCover); ?>"
+                                        style="max-height: 700px; object-fit: cover;">
 
-                                        <dl class="mt2 f6 lh-copy">
-                                            <dt class="clip">Borrower</dt>
-                                            <dd class="ml0"><?php echo htmlentities($result->FullName); ?></dd>
-                                            <dt class="clip">Book</dt>
-                                            <dd class="ml0 gray"><?php echo htmlentities($result->BookName); ?></dd>
-                                            <dt class="clip">Author</dt>
-                                            <dd class="ml0 gray"><?php echo htmlentities($result->AuthorName); ?></dd>
-                                            <dt class="clip">Category</dt>
-                                            <dd class="ml0 gray"><?php echo htmlentities($result->CategoryName); ?></dd>
-                                            <dt class="clip">Date</dt>
-                                            <dd class="ml0 gray"><?php echo htmlentities($result->IssuesDate); ?></dd>
-                                        </dl>
-                                    </a>
-                                <?php }
-                            }
-                        } catch (PDOException $e) {
-                            echo "Error: " . $e->getMessage();
+                                    <dl class="mt2 f6 lh-copy">
+                                        <dt class="clip">Borrower</dt>
+                                        <dd class="ml0"><?php echo htmlentities($result->FullName); ?></dd>
+                                        <dt class="clip">Book</dt>
+                                        <dd class="ml0 gray"><?php echo htmlentities($result->BookName); ?></dd>
+                                        <dt class="clip">Author</dt>
+                                        <dd class="ml0 gray"><?php echo htmlentities($result->AuthorName); ?></dd>
+                                        <dt class="clip">Category</dt>
+                                        <dd class="ml0 gray"><?php echo htmlentities($result->CategoryName); ?></dd>
+                                        <dt class="clip">Date</dt>
+                                        <dd class="ml0 gray"><?php echo htmlentities($result->IssuesDate); ?></dd>
+                                    </dl>
+                                </a>
+                    <?php }
                         }
-                        ?>
-                    </div>
-                </section>
-                <?php include('includes/footer.php'); ?>
+                    } catch (PDOException $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                    ?>
+                </div>
+            </section>
+            <?php include('includes/footer.php'); ?>
     </body>
 
     </html>

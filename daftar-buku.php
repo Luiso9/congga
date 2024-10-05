@@ -17,104 +17,91 @@ if (strlen($_SESSION['login']) == 0) {
         $query = $dbh->prepare($sql);
         $query->execute();
         $books = $query->fetchAll(PDO::FETCH_ASSOC);
-        if ($books) {
-            include('includes/header.php');
-            echo "<h1 class='tc'>Daftar Buku</h1>";
-            echo "<section class='cf w-100 pa2-ns'>";
-            foreach ($books as $book) {
-                echo "<article class='fl w-100 w-50-m w-25-ns pa2-ns'>";
-                echo "<div class='aspect-ratio aspect-ratio--1x1'>";
-                $imagePath = htmlspecialchars($book['BookCover']);
-                echo "<img src='admin/$imagePath' alt='Book Cover' class='db bg-center cover aspect-ratio--object' style='object-fit: cover; height: 100%; width: 100%;' />";
-                echo "</div>";
-                echo "<a href='javascript:void(0);' onclick=\"openModal('" . htmlspecialchars($book['ISBNNumber']) . "', '" . htmlspecialchars($book['BookName']) . "')\" class='ph2 ph0-ns pb3 link db'>";
-                echo "<h3 class='f5 f4-ns mb0 black-90'>" . htmlspecialchars($book['BookName']) . "</h3>";
-                echo "<p class='f6 f5 fw4 mt2 black-60'>Category: " . htmlspecialchars($book['CategoryName']) . "</p>";
-                echo "<p class='f6 f5 fw4 mt2 black-60'>Author: " . htmlspecialchars($book['AuthorName']) . "</p>";
-                echo "<p class='f6 f5 fw4 mt2 black-60'>ISBN: " . htmlspecialchars($book['ISBNNumber']) . "</p>";
-                echo "</a>";
-                echo "</article>";
-            }
-            echo "</section>";
-        } else {
-            $_SESSION['error'] = "No books found in the database.";
-        }
+        include('includes/header.php');
+?>
+
+<main class="container my-5">
+    <h1 class="text-center mb-5">Daftar Buku</h1>
+
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['error'])) { ?>
+        <div class="alert alert-danger text-center" role="alert">
+            <?php echo htmlentities($_SESSION['error']); unset($_SESSION['error']); ?>
+        </div>
+    <?php } ?>
+
+    <!-- Book Listing -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php if ($books): ?>
+            <?php foreach ($books as $book): ?>
+                <div class="col">
+                    <div class="card h-100 shadow-sm" style="width: 100%;">
+                        <!-- Ensure image fits card width -->
+                        <img src="admin/<?php echo htmlspecialchars($book['BookCover']); ?>" alt="Cover of <?php echo htmlspecialchars($book['BookName']); ?>" class="card-img-top" style="width: 100%; height: auto; object-fit: cover;">
+                        
+                        <div class="card-body">
+                            <h3 class="card-title"><?php echo htmlspecialchars($book['BookName']); ?></h3>
+                            <p class="card-text">
+                                <strong>Kategori:</strong> <?php echo htmlspecialchars($book['CategoryName']); ?><br>
+                                <strong>Penulis:</strong> <?php echo htmlspecialchars($book['AuthorName']); ?><br>
+                                <strong>ISBN:</strong> <?php echo htmlspecialchars($book['ISBNNumber']); ?>
+                            </p>
+                        </div>
+                        <div class="card-footer bg-white text-center">
+                            <button class="btn btn-primary" onclick="openModal('<?php echo htmlspecialchars($book['ISBNNumber']); ?>', '<?php echo htmlspecialchars($book['BookName']); ?>')" aria-label="Borrow <?php echo htmlspecialchars($book['BookName']); ?>">
+                                Pinjam Buku
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-12 text-center">
+                <p class="lead">Tidak ada buku yang tersedia saat ini.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+</main>
+
+<?php
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
-
-if (isset($_SESSION['error'])) {
-    echo "<p style='color:red'>" . $_SESSION['error'] . "</p>";
-    unset($_SESSION['error']);
-}
+include('includes/footer.php');
 ?>
 
 <!-- Modal Structure -->
-<div id="requestModal" class="modal fixed top-0 left-0 w-100 h-100 flex items-center justify-center bg-black-50" style="display:none; z-index: 1000;">
-    <div class="modal-content bg-white br3 pa4 shadow-5">
-        <span class="close fr f4 link dim" onclick="closeModal()">&times;</span>
-        <h2 class="f5 black">Confirm Borrow Request</h2>
-        <p>Are you sure you want to borrow <strong id="modal-book-name"></strong>?</p>
-        <form action="process_borrow_request.php" method="POST">
-            <input type="hidden" name="bookId" id="confirm-borrow-book-id">
-            <button type="submit" class="f6 link dim br3 ph3 pv2 mb2 dib white bg-blue">Yes, borrow</button>
-            <button type="button" class="f6 link dim br3 ph3 pv2 mb2 dib white bg-red" onclick="closeModal()">Cancel</button>
-        </form>
+<div id="requestModal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalLabel" class="modal-title">Confirm Borrow Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to borrow <strong id="modal-book-name"></strong>?</p>
+                <form action="process_borrow_request.php" method="POST">
+                    <input type="hidden" name="bookId" id="confirm-borrow-book-id">
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-2">Yes, borrow</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
-<style>
-    body {
-        background-color: white;
-        font-family: "Roboto", sans-serif;
-    }
-
-    h1 {
-        margin-top: 20px;
-        color: black;
-    }
-
-    p {
-        margin: 5px 0;
-        color: black;
-    }
-
-    .aspect-ratio {
-        position: relative;
-        width: 100%;
-        height: 0;
-        padding-bottom: 100%;
-    }
-
-    .aspect-ratio--object {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 100%;
-        width: 100%;
-    }
-</style>
+<!-- Bootstrap 5 CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     function openModal(bookId, bookName) {
         document.getElementById('confirm-borrow-book-id').value = bookId;
         document.getElementById('modal-book-name').innerText = bookName;
-        document.getElementById('requestModal').style.display = "flex";
-    }
-
-    function closeModal() {
-        document.getElementById('requestModal').style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('requestModal');
-        if (event.target == modal) {
-            closeModal();
-        }
+        var modal = new bootstrap.Modal(document.getElementById('requestModal'));
+        modal.show();
     }
 </script>
-
-<?php include('includes/footer.php'); ?>

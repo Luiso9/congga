@@ -36,6 +36,23 @@ if (strlen($_SESSION['alogin']) == 0) {
             header('location:manage-categories.php');
         }
     }
+
+    if (isset($_POST['update'])) {
+        $category = $_POST['category'];
+        $status = $_POST['status'];
+        $catid = intval($_POST['catid']);
+
+        $sql = "UPDATE tblcategory SET CategoryName=:category, Status=:status WHERE id=:catid";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':category', $category, PDO::PARAM_STR);
+        $query->bindParam(':status', $status, PDO::PARAM_STR);
+        $query->bindParam(':catid', $catid, PDO::PARAM_INT); 
+        $query->execute();
+
+        $_SESSION['updatemsg'] = "Kategori berhasil diupdate";
+        header('location:manage-categories.php');
+        exit();
+    }
 }
 ?>
 
@@ -66,10 +83,10 @@ if (strlen($_SESSION['alogin']) == 0) {
                 <thead>
                     <tr class="bg-light-gray">
                         <th class="fw6 tl pb3 pr3">#</th>
-                        <th class="fw6 tl pb3 pr3">Category</th>
+                        <th class="fw6 tl pb3 pr3">Kategori</th>
                         <th class="fw6 tl pb3 pr3">Status</th>
-                        <th class="fw6 tl pb3 pr3">Created Date</th>
-                        <th class="fw6 tl pb3 pr3">Last Updated</th>
+                        <th class="fw6 tl pb3 pr3">Tanggal Dibuat</th>
+                        <th class="fw6 tl pb3 pr3">Terakhir Diupdate</th>
                         <th class="fw6 tl pb3 pr3">Action</th>
                     </tr>
                 </thead>
@@ -89,7 +106,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                 <td class="pv3 pr3"><?php echo htmlentities($result->CreationDate); ?></td>
                                 <td class="pv3 pr3"><?php echo htmlentities($result->UpdationDate); ?></td>
                                 <td class="pv3 pr3">
-                                    <a href="edit-category.php?catid=<?php echo htmlentities($result->id); ?>" class="link dim blue">Edit</a>
+                                    <button class="link dim blue ml3" onclick="openEditModal(<?php echo htmlentities($result->id); ?>)">Edit</button>
                                     <a href="manage-categories.php?del=<?php echo htmlentities($result->id); ?>" class="link dim red" onclick="return confirm('Are you sure you want to delete?');">Delete</a>
                                 </td>
                             </tr>
@@ -101,39 +118,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         </div>
     </div>
 
-    <!-- Modal for adding category -->
-    <div id="categoryModal" class="fixed z-999 top-0 left-0 w-100 h-100 bg-black-80 dn">
-        <div class="bg-white mw6 center mt5 pa4">
-            <div class="flex justify-between items-center">
-                <h3 class="f4">Tambah Kategori</h3>
-                <button id="closeModalBtn" class="link dim black-80 f4">
-                    <svg class="w2 h2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
-            <form method="post">
-                <div class="mv3">
-                    <label for="category" class="db mb2">Nama Kategori</label>
-                    <input type="text" name="category" id="category" class="input-reset ba b--black-20 pa2 mb2 db w-100" required>
-                </div>
-                <div class="mv3">
-                    <label for="status" class="db mb2">Status</label>
-                    <label class="pa2">
-                        <input type="radio" name="status" value="1" checked> Active
-                    </label>
-                    <label class="pa2">
-                        <input type="radio" name="status" value="0"> Inactive
-                    </label>
-                </div>
-                <div class="mv3">
-                    <button type="submit" name="create" class="f6 link dim br2 ph3 pv2 mb2 dib white bg-dark-blue">Tambah Kategori</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <?php include('modal/modalCategory.php'); ?>
 
     <?php include('includes/footer.php'); ?>
 
@@ -141,7 +126,31 @@ if (strlen($_SESSION['alogin']) == 0) {
         initializeDataTable('#kategori');
     </script>
 
+    <!-- Edit Kategori -->
     <script>
+        function openEditModal(catid) {
+            fetch(`backend/get-category.php?catid=${catid}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('editCategory').value = data.CategoryName;
+                    document.getElementById('catid').value = data.id;
+                    if (data.Status == 1) {
+                        document.getElementById('statusActive').checked = true;
+                    } else {
+                        document.getElementById('statusInactive').checked = true;
+                    }
+
+                    document.getElementById('editCategoryModal').classList.remove('dn');
+                })
+                .catch(error => console.error('Error fetching category:', error));
+        }
+
+        // Close modal button event
+        document.getElementById('closeEditModalBtn').addEventListener('click', () => {
+            document.getElementById('editCategoryModal').classList.add('dn');
+        });
+
+
         $(document).ready(function() {
             const addCategoryBtn = document.getElementById("addCategoryBtn");
             const categoryModal = document.getElementById("categoryModal");
@@ -156,6 +165,8 @@ if (strlen($_SESSION['alogin']) == 0) {
             });
         });
     </script>
+
+
 </body>
 
 </html>

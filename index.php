@@ -8,38 +8,35 @@ if (isset($_SESSION['login']) && $_SESSION['login'] != '') {
 }
 
 if (isset($_POST['login'])) {
-  // Code for captcha verification
   if ($_POST["vercode"] != $_SESSION["vercode"] || empty($_SESSION["vercode"])) {
     echo "<script>alert('Incorrect verification code');</script>";
   } else {
     $email = $_POST['emailid'];
-    $password = md5($_POST['password']); // Consider using password_hash in production
+    $password = md5($_POST['password']); 
 
-    // Query to check admin credentials
+    // Mengecek status admin
     $sqlAdmin = "SELECT AdminEmail FROM admin WHERE AdminEmail = :email AND Password = :password";
     $queryAdmin = $dbh->prepare($sqlAdmin);
     $queryAdmin->bindParam(':email', $email, PDO::PARAM_STR);
     $queryAdmin->bindParam(':password', $password, PDO::PARAM_STR);
     $queryAdmin->execute();
 
-    // Check for admin credentials
     if ($queryAdmin->rowCount() > 0) {
-      $_SESSION['alogin'] = $email; // Store admin email in session
+      $_SESSION['alogin'] = $email; 
       echo "<script type='text/javascript'> document.location ='admin/dashboard.php'; </script>";
     } else {
-      // If admin login fails, check student login
+      // Jika bukan admin tetapi akun valid, akan diarahkan sebagai siswa
       $sqlStudent = "SELECT EmailId, Password, StudentId, Status FROM tblstudents WHERE EmailId = :email AND Password = :password";
       $queryStudent = $dbh->prepare($sqlStudent);
       $queryStudent->bindParam(':email', $email, PDO::PARAM_STR);
       $queryStudent->bindParam(':password', $password, PDO::PARAM_STR);
       $queryStudent->execute();
 
-      // Check for student credentials
       if ($queryStudent->rowCount() > 0) {
         foreach ($queryStudent->fetchAll(PDO::FETCH_OBJ) as $result) {
-          $_SESSION['stdid'] = $result->StudentId; // Store student ID in session
+          $_SESSION['stdid'] = $result->StudentId; 
           if ($result->Status == 1) {
-            $_SESSION['login'] = $email; // Store email in session
+            $_SESSION['login'] = $email; 
             echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
           } else {
             echo "<script>alert('Your account has been blocked. Please contact admin.');</script>";
@@ -76,8 +73,8 @@ if (isset($_POST['login'])) {
   <div class="content-wrapper">
     <div class="container center">
       <div class="flex justify-center items-center min-vh-100">
-        <div class="w-100 w-50-m w-30-l pa4 bg-white shadow-4 br3">
-          <h4 class="header-line f3 fw6 tc dark-red mb4">CINA DILARANG LOGIN</h4>
+        <div class="w-100 w-50-m w-30-l pr4 pl4 pb4 bg-white shadow-4 br3">
+          <h4 class="header-line f3 fw6 tc dark-red mb4">LOGIN</h4>
 
           <!-- LOGIN PANEL START -->
           <form role="form" method="post">

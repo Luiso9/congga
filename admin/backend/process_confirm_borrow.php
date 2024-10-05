@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $isbn = htmlspecialchars($_POST['isbn']);
         $userId = htmlspecialchars($_POST['userid']);
         $issueDate = date('Y-m-d H:i:s');
-        $returnDeadline = date('Y-m-d H:i:s', strtotime('+14 days'));
+        $returnDeadline = date('Y-m-d H:i:s', strtotime('+5 seconds'));
 
         try {
             $sql = "INSERT INTO tblissuedbookdetails (StudentId, BookId, IssuesDate, ReturnDate, ActualReturnDate) 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['error'] = "Error: " . $e->getMessage();
         }
     }
-    header('location: manage-issue-books.php');
+    header('location: admin/dashboard.php');
     exit;
 }
-?>
+

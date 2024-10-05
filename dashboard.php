@@ -5,18 +5,20 @@ include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
     header('location:index.php');
 } else { ?>
+
     <body class="bg-near-white black-80 sans-serif">
 
         <!--Nav-->
         <?php include('includes/header.php'); ?>
 
         <!-- Hero Section -->
-        <section class="w-100 bg-center cover h5 flex items-center justify-center tc white" style="background:url(http://mrmrs.github.io/photos/u/009.jpg) no-repeat center;">
+        <section class="w-100 bg-center cover h5 flex items-center justify-center tc white" style="background-image: url('./assets/img/subtle-prism.svg');">
             <div class="w-100 ph4">
                 <h1 class="f1 b mb2">Selamat Datang!</h1>
                 <p class="f4">Manage your library activities with ease.</p>
             </div>
         </section>
+
 
         <!-- Dashboard Section -->
         <section class="bg-near-white pv5">
