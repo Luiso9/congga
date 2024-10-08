@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['error'] = "Error: " . $e->getMessage();
         }
     }
-    header('location: admin/dashboard.php');
+    header('location: ../dashboard.php');
     exit;
 }
 

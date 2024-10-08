@@ -1,0 +1,78 @@
+/* .horizontal-scroll::-webkit-scrollbar {
+	display: none; 
+}
+
+.horizontal-scroll {
+	overflow-x: auto;
+	white-space: nowrap;
+} */
+
+.horizontal-scroll {
+	transform-style: preserve-3d;
+	transform: perspective(1000px);
+}
+
+.horizontal-scroll .card {
+	transition: 0.5s;
+	filter: brightness(.5);
+}
+
+.horizontal-scroll .card:hover {
+	filter: brightness(1);
+	transform: translateZ(200px);
+}
+
+/* .horizontal-scroll .card:hover + * {
+	filter: brightness(0.6);
+	transform: translateZ(150px) rotateY(40deg);
+}
+.horizontal-scroll .card:hover + * + * {
+	filter: brightness(0.4);
+	transform: translateZ(70px) rotateY(20deg);
+}
+.horizontal-scroll .card:hover + * + * + * {
+	filter: brightness(0.2);
+	transform: translateZ(30px) rotateY(10deg);
+}
+
+.horizontal-scroll .card:has(+ *:hover) {
+	filter: brightness(0.6);
+	transform: translateZ(150px) rotateY(-40deg);
+}
+
+.horizontal-scroll .card:has(+ * + *:hover) {
+	filter: brightness(0.4);
+	transform: translateZ(70px) rotateY(-20deg);
+}
+
+.horizontal-scroll .card:has(+ * + * + *:hover) {
+	filter: brightness(0.2);
+	transform: translateZ(30px) rotateY(-10deg);
+} */
+
+.stat-bar {
+    background-color: #4CAF50; /* Green */
+    height: 20px; /* Height of the bar */
+    border-radius: 5px; /* Rounded corners */
+    transition: width 0.3s; /* Smooth transition for width */
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.mb3 {
+    margin-bottom: 1rem; /* Margin bottom for spacing */
+}
